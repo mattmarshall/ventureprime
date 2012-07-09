@@ -1,5 +1,9 @@
 #!/bin/bash -ex
+
+echo "Building VenturePrime"
 cd $WORKSPACE
+
+echo "Configuring Python"
 virtualenv -q ve
 source ./ve/bin/activate
 pip install -E ./ve -r requirements.txt
