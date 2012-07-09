@@ -1,7 +1,8 @@
 #!/bin/bash -ex
 
-echo "Building VenturePrime"
-cd $WORKSPACE
+# Get current directory
+SCRIPTS_DIR=$(pwd)
+echo "Building VenturePrime in $SCRIPTS_DIR"
 
 echo "Configuring Python"
 virtualenv -q ve
