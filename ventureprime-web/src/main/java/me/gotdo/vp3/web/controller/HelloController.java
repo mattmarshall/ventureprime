@@ -11,6 +11,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HelloController implements Controller {
 
@@ -20,8 +22,12 @@ public class HelloController implements Controller {
             throws ServletException, IOException {
 
         logger.info("Returning hello view");
-
-        return new ModelAndView("hello");
+        
+        String remoteAddr = request.getRemoteAddr();
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("address", remoteAddr);
+        
+        return new ModelAndView("hello", map);
     }
 
 }

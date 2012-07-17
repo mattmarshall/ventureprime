@@ -39,6 +39,8 @@
         <div id="info">
             <p>This page is the future, man.</p>
             <p>So, basically don't hate. Please?</p>
+            <br />
+            <p>Btw, it looks like you're visiting us from ${address}, is that right?</p>
         </div>
     </body>
 </html>
