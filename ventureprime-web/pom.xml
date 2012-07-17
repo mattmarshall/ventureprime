@@ -44,6 +44,16 @@
 							<cargo.remote.password>inIt2WinIt</cargo.remote.password>
 							<cargo.tomcat.manager.url>http://10.0.0.250:8080/manager/text</cargo.tomcat.manager.url>
 						</properties>
+						<deployables>
+							<deployable>
+								<groupId>${project.groupId}</groupId>
+								<type>${project.packaging}</type>
+								<artifactId>${project.artifactId}</artifactId>
+								<properties>
+									<context>ROOT</context>
+								</properties>
+							</deployable>
+						</deployables>
 					</configuration>
 				</configuration>
 			</plugin>
