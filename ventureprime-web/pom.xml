@@ -50,7 +50,7 @@
 								<type>${project.packaging}</type>
 								<artifactId>${project.artifactId}</artifactId>
 								<properties>
-									<context>ROOT</context>
+									<context>/</context>
 								</properties>
 							</deployable>
 						</deployables>
