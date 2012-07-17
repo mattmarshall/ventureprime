@@ -41,6 +41,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>tomcat-maven-plugin</artifactId>
+				<version>1.1</version>
 				<configuration>
 					<url>http://10.0.0.250:8080/manager/text</url>
 					<server>dev.vp3.ventureprime.net</server>
