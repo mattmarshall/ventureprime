@@ -1,4 +1,4 @@
-package net.ventureprime.vp3.web;
+package me.gotdo.vp3.web.controller;
 
 import org.springframework.web.servlet.mvc.Controller;
 import org.springframework.web.servlet.ModelAndView;

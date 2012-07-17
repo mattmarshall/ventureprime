@@ -7,7 +7,7 @@
 
 	<!-- the application context definition for the springapp DispatcherServlet -->
 
-	<bean name="/hello.htm" class="net.ventureprime.vp3.web.HelloController" />
+	<bean name="/hello.htm" class="me.gotdo.vp3.web.controller.HelloController" />
 
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix">
