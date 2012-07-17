@@ -38,6 +38,7 @@
         </header>
         <div id="info">
             <p>This page is the future, man.</p>
+            <p>So, basically don't hate. Please?</p>
         </div>
     </body>
 </html>
