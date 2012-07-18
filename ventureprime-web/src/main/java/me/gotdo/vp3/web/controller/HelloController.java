@@ -1,33 +1,20 @@
 package me.gotdo.vp3.web.controller;
 
-import org.springframework.web.servlet.mvc.Controller;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+@Controller
+@RequestMapping("/welcome")
+public class HelloController {
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+	@RequestMapping(method = RequestMethod.GET)
+	public String printWelcome(ModelMap model) {
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+		model.addAttribute("message", "Spring Security Hello World");
+		return "hello";
 
-public class HelloController implements Controller {
-
-    protected final Log logger = LogFactory.getLog(getClass());
-
-    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        logger.info("Returning hello view");
-        
-        String remoteAddr = request.getRemoteAddr();
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("address", remoteAddr);
-        
-        return new ModelAndView("hello", map);
-    }
+	}
 
 }

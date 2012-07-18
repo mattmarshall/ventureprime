@@ -34,13 +34,11 @@
     </head>
     <body>
         <header id="vp-header">
-            <h1>My First Spring MVC Servlet Page!</h1>
+            <h1>${message}</h1>
         </header>
         <div id="info">
             <p>This page is the future, man.</p>
             <p>So, basically don't hate. Please?</p>
-            <br />
-            <p>Btw, it looks like you're visiting us from <%= request.getAttribute("address") %>, is that right?</p>
         </div>
     </body>
 </html>
