@@ -18,7 +18,10 @@
 	<authentication-manager>
 		<authentication-provider>
 			<user-service>
-				<user name="ventureprime" password="init2winit" authorities="ROLE_USER" />
+				<!-- Hard-coded right now -->
+				<user name="venture" password="init2winit" authorities="VENTURE" />
+				<user name="primer" password="init2winit" authorities="PRIMER" />
+				<user name="admin" password="init2winit" authorities="ADMIN" />
 			</user-service>
 		</authentication-provider>
 	</authentication-manager>
