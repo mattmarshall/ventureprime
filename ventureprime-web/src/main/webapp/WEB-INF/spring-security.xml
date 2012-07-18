@@ -6,7 +6,7 @@
 	http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
 
 	<http auto-config="true">
-		<intercept-url pattern="/welcome*" access="USER" />
+		<intercept-url pattern="/welcome*" access="ROLE_USER" />
 		
 		<!-- Custom Login Form -->
 		<form-login login-page="/login"
@@ -19,9 +19,9 @@
 		<authentication-provider>
 			<user-service>
 				<!-- Hard-coded right now -->
-				<user name="venture" password="init2winit" authorities="USER,VENTURE" />
-				<user name="primer" password="init2winit" authorities="USER,PRIMER" />
-				<user name="admin" password="init2winit" authorities="USER,ADMIN" />
+				<user name="venture" password="init2winit" authorities="ROLE_USER" />
+				<user name="primer" password="init2winit" authorities="ROLE_USER" />
+				<user name="admin" password="init2winit" authorities="ROLE_USER" />
 			</user-service>
 		</authentication-provider>
 	</authentication-manager>

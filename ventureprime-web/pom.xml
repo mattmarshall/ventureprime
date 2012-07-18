@@ -109,7 +109,7 @@
 					<url>http://10.0.0.250:8080/manager/text</url>
 					<server>dev.vp3.ventureprime.net</server>
 					<update>true</update>
-					<path>/vp</path>
+					<path>/</path>
 				</configuration>
 			</plugin>
 			<plugin>
