@@ -8,8 +8,9 @@
 	<name>ventureprime-web Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
-		<spring.framework.version>3.1.2.RELEASE</spring.framework.version>
+		<spring.version>3.0.5.RELEASE</spring.version>
 	</properties>
+
 	<repositories>
 		<repository>
 			<id>spring-release</id>
@@ -17,6 +18,7 @@
 			<url>http://repo.springsource.org/libs-release</url>
 		</repository>
 	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -24,32 +26,58 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- Spring 3 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring</artifactId>
-			<version>2.5.6.SEC03</version>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
+ 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+ 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>2.5.6.SEC03</version>
+			<version>${spring.version}</version>
 		</dependency>
+ 
+		<!-- Spring Security -->
 		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-mongodb</artifactId>
-			<version>1.0.2.RELEASE</version>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
+ 
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+ 
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk</artifactId>
 			<version>1.0.002</version>
 		</dependency>
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 		</dependency>
 	</dependencies>
+
 	<build>
 		<finalName>vp</finalName>
 		<plugins>
