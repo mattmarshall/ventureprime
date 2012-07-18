@@ -164,12 +164,8 @@ pip-log.txt
 .DS_Store
 
 
-# Normal
-WEB-INF/lib
-WEB-INF/lib/**
-**/WEB-INF/lib/**
-
-# Windows
-WEB-INF\lib
-WEB-INF\lib/**
-**\WEB-INF\lib\**
+# Java Files
+*.class
+*.jar
+*.war
+*.ear
