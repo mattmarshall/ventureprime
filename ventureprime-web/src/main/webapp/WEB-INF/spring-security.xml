@@ -7,6 +7,12 @@
 
 	<http auto-config="true">
 		<intercept-url pattern="/welcome*" access="ROLE_USER" />
+		
+		<!-- Custom Login Form -->
+		<form-login login-page="/login"
+					default-target-url="/welcome"
+					authentication-failure-url="/loginfailed" />
+		<logout logout-success-url="/logout" />
 	</http>
 
 	<authentication-manager>
