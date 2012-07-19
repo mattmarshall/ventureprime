@@ -9,7 +9,25 @@
         http://www.springframework.org/schema/beans     
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<context:component-scan base-package="me.gotdo.vp3.web.controller" />
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>classpath:mongo.properties</value>
+		</property>
+	</bean>
+
+	<context:component-scan base-package="me.gotdo.vp3.web" />
+
+	<!-- Default bean name is 'mongo' -->
+	<mongo:mongo host="${mongo.host.name}" port="${mongo.host.port}" />
+
+	<!-- MongoDB Repositories -->
+	<mongo:repositories base-package="me.gotdo.vp3.web.repository" />
+
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg ref="mongo" />
+		<constructor-arg name="databaseName" value="${mongo.db.name}" />
+	</bean>
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -29,15 +47,7 @@
 			</list>
 		</property>
 	</bean>
-	
-	<!-- Default bean name is 'mongo' -->
-	<mongo:mongo host="localhost" port="27017" />
- 
-	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-		<constructor-arg ref="mongo" />
-		<constructor-arg name="databaseName" value="ventureprime" />
-	</bean>
-	
+
 	<!-- To translate an MongoExceptions thrown in @Repository annotated classes -->
 	<context:annotation-config />
 
