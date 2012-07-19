@@ -13,6 +13,9 @@
 
 	<!-- Default bean name is 'mongo' -->
 	<mongo:mongo host="localhost" port="27017" />
+	
+	<!-- MongoDB Repositories -->
+	<mongo:repositories base-package="me.gotdo.vp3.web.repository" />
 
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg ref="mongo" />
