@@ -7,9 +7,37 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>VenturePrime 3.0</name>
 	<url>http://maven.apache.org</url>
+
 	<properties>
 		<spring.version>3.0.5.RELEASE</spring.version>
 	</properties>
+
+	<profiles>
+		<!-- Local Profile -->
+		<profile>
+			<id>local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<env>local</env>
+				<props.mongo.host.name>localhost</props.mongo.host.name>
+				<props.mongo.host.port>27017</props.mongo.host.port>
+				<props.mongo.db.name>ventureprime</props.mongo.db.name>
+			</properties>
+		</profile>
+
+		<!-- DEV Profile -->
+		<profile>
+			<id>dev</id>
+			<properties>
+				<env>dev</env>
+				<props.mongo.host.name>10.0.0.250</props.mongo.host.name>
+				<props.mongo.host.port>27017</props.mongo.host.port>
+				<props.mongo.db.name>ventureprime</props.mongo.db.name>
+			</properties>
+		</profile>
+	</profiles>
 
 	<repositories>
 		<repository>
@@ -89,7 +117,7 @@
 			<artifactId>spring-data-mongodb</artifactId>
 			<version>1.1.0.M1</version>
 		</dependency>
-		
+
 		<!-- Spring Test -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -143,6 +171,43 @@
 
 	<build>
 		<finalName>ventureprime-web</finalName>
+
+		<!-- Test Resources -->
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+			</testResource>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>*</include>
+				</includes>
+			</testResource>
+		</testResources>
+
+		<!-- Build Resources -->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>*</include>
+				</includes>
+			</resource>
+		</resources>
+
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

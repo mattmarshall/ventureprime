@@ -36,22 +36,22 @@ public class SampleTest extends AbstractJUnit4SpringContextTests {
 		
 		// Create random survey name
 		UUID idOne = UUID.randomUUID();
-		String surveyName = "survey_" + idOne.toString();
+		String friendlyName = "survey_" + idOne.toString();
 		
 		Survey survey = new Survey();
-		survey.setSurveyName(surveyName);
-		assertNull(survey.getSurveyId());
+		survey.setFriendlyName(friendlyName);
+		assertNull(survey.getId());
 		
 		survey = surveyDao.save(survey);
 		assertNotNull(survey);
-		assertNotNull(survey.getSurveyId());
-		assertEquals(surveyName, survey.getSurveyName());
+		assertNotNull(survey.getId());
+		assertEquals(friendlyName, survey.getFriendlyName());
 		
-		String id = survey.getSurveyId();
+		String id = survey.getId();
 		Survey retrieved = surveyDao.findOne(id);
 		assertNotNull(retrieved);
-		assertEquals(survey.getSurveyId(), retrieved.getSurveyId());
-		assertEquals(survey.getSurveyName(), retrieved.getSurveyName());
+		assertEquals(survey.getId(), retrieved.getId());
+		assertEquals(survey.getFriendlyName(), retrieved.getFriendlyName());
 	}
 
 }
