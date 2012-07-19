@@ -1,5 +1,8 @@
 package me.gotdo.vp3.web.controller;
 
+import java.util.List;
+
+import me.gotdo.vp3.web.model.Survey;
 import me.gotdo.vp3.web.repository.SurveyRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +18,10 @@ public class SurveyController {
 	private SurveyRepository surveyRepo;
 	
 	@RequestMapping(value="/survey", method = RequestMethod.GET)
-	public String showAllSurveys(ModelMap model) {
+	public String showAllSurveys(ModelMap model) throws Exception {
+		
+		List<Survey> surveys = surveyRepo.findAll();
+		model.addAttribute("surveys", surveys);
  
 		return "surveys";
  
