@@ -14,16 +14,13 @@
 					authentication-failure-url="/loginfailed" />
 		<logout logout-success-url="/logout" />
 	</http>
-
+	
+	<!-- Custom Authentication Manager -->
 	<authentication-manager>
-		<authentication-provider>
-			<user-service>
-				<!-- Hard-coded right now -->
-				<user name="venture" password="init2winit" authorities="ROLE_USER" />
-				<user name="primer" password="init2winit" authorities="ROLE_USER" />
-				<user name="admin" password="init2winit" authorities="ROLE_USER" />
-			</user-service>
-		</authentication-provider>
+		<authentication-provider user-service-ref="usersDetailService" />
 	</authentication-manager>
+	
+	<!-- Custom User Details Provider -->
+	<beans:bean id="usersDetailService" class="me.gotdo.vp3.service.MongoUserDetailService" />
 
 </beans:beans>

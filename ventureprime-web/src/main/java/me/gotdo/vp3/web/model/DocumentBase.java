@@ -25,6 +25,10 @@ public abstract class DocumentBase<E> {
 	public String getId() {
 		return id;
 	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public DocumentMeta getMetadata() {
 		return metadata;

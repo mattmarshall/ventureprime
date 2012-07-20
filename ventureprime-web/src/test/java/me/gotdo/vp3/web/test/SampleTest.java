@@ -7,7 +7,9 @@ import java.util.Random;
 import java.util.UUID;
 
 import me.gotdo.vp3.web.model.Survey;
+import me.gotdo.vp3.web.model.VPUser;
 import me.gotdo.vp3.web.repository.SurveyRepository;
+import me.gotdo.vp3.web.repository.VPUserRepository;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,6 +26,9 @@ public class SampleTest extends AbstractJUnit4SpringContextTests {
 	
 	@Autowired
 	private SurveyRepository surveyDao;
+	
+	@Autowired
+	private VPUserRepository userRepo;
 
 	@Before
 	public void setUp() throws Exception {
@@ -75,6 +80,40 @@ public class SampleTest extends AbstractJUnit4SpringContextTests {
 		for (Survey survey : surveys) {
 			Survey newSurvey = (Survey) survey.upgradeTo(0);
 			surveyDao.save(newSurvey);
+		}
+	}
+	
+	@Test
+	public void createUsers() {
+		
+		// Create mmarshall
+		VPUser mmarshall = userRepo.findOne("mmarshall");
+		if (mmarshall == null) {
+			mmarshall = new VPUser();
+			mmarshall.setId("mmarshall");
+			mmarshall.setActive(true);
+			mmarshall.setCredentials("1234");
+			userRepo.save(mmarshall);
+		}
+		
+		// Create lharris
+		VPUser lharris = userRepo.findOne("lharris");
+		if (lharris == null) {
+			lharris = new VPUser();
+			lharris.setId("lharris");
+			lharris.setActive(true);
+			lharris.setCredentials("1234");
+			userRepo.save(lharris);
+		}
+		
+		// Create kclayton
+		VPUser kclayton = userRepo.findOne("kclayton");
+		if (kclayton == null) {
+			kclayton = new VPUser();
+			kclayton.setId("kclayton");
+			kclayton.setActive(true);
+			kclayton.setCredentials("1234");
+			userRepo.save(kclayton);
 		}
 	}
 }
