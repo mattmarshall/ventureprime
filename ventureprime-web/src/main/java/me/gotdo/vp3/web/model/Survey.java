@@ -3,15 +3,11 @@ package me.gotdo.vp3.web.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class Survey {
-	
-	@Id
-	private String id;
+public class Survey extends DocumentBase<Survey> {
 	
 	@Indexed
 	private String creatorId;
@@ -25,10 +21,6 @@ public class Survey {
 	
 	public Survey() {
 		this.questionsAndAnswers = new HashMap<String, String>();
-	}
-
-	public String getId() {
-		return id;
 	}
 
 	public String getCreatorId() {
@@ -67,4 +59,13 @@ public class Survey {
 	    this.questionsAndAnswers.put(question, answer);
 	    return this;
 	  }
+
+	@Override
+	public DocumentBase<Survey> upgradeTo(long schemaVersion) {
+		if (schemaVersion <= 0) {
+			DocumentMeta newMeta = new DocumentMeta(100, 100);
+			this.setMetadata(newMeta);
+		}
+		return this;
+	}
 }

@@ -40,5 +40,19 @@ public class LoginController {
 		return "login";
  
 	}
- 
+	
+	@RequestMapping(value="/signup", method = RequestMethod.GET)
+	public String getSignup(ModelMap model) {
+		
+		return "signup-get";
+		
+	}
+	
+	@RequestMapping(value="/signup", method = RequestMethod.POST)
+	public String submitSignup(ModelMap model) {
+		
+		return "signup-post";
+		
+	}
+	
 }

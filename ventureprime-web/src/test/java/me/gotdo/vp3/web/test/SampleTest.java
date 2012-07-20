@@ -2,6 +2,8 @@ package me.gotdo.vp3.web.test;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import me.gotdo.vp3.web.model.Survey;
@@ -38,13 +40,23 @@ public class SampleTest extends AbstractJUnit4SpringContextTests {
 		UUID idOne = UUID.randomUUID();
 		String friendlyName = "survey_" + idOne.toString();
 		
+		Random random = new Random();
+		long schemaVersion = random.nextLong();
+		long documentVersion = random.nextLong();
+		
 		Survey survey = new Survey();
 		survey.setFriendlyName(friendlyName);
+		survey.getMetadata().setSchemaVersion(schemaVersion);
+		survey.getMetadata().setDocumentVersion(documentVersion);
 		assertNull(survey.getId());
 		
 		survey = surveyDao.save(survey);
+		
 		assertNotNull(survey);
 		assertNotNull(survey.getId());
+		assertNotNull(survey.getMetadata());
+		assertEquals(survey.getMetadata().getSchemaVersion(), schemaVersion);
+		assertEquals(survey.getMetadata().getDocumentVersion(), documentVersion);
 		assertEquals(friendlyName, survey.getFriendlyName());
 		
 		String id = survey.getId();
@@ -52,6 +64,17 @@ public class SampleTest extends AbstractJUnit4SpringContextTests {
 		assertNotNull(retrieved);
 		assertEquals(survey.getId(), retrieved.getId());
 		assertEquals(survey.getFriendlyName(), retrieved.getFriendlyName());
+		assertNotNull(retrieved.getMetadata());
+		assertEquals(retrieved.getMetadata().getSchemaVersion(), schemaVersion);
+		assertEquals(retrieved.getMetadata().getDocumentVersion(), documentVersion);
 	}
-
+	
+	@Test
+	public void canUpdate() {
+		List<Survey> surveys = surveyDao.findAll();
+		for (Survey survey : surveys) {
+			Survey newSurvey = (Survey) survey.upgradeTo(0);
+			surveyDao.save(newSurvey);
+		}
+	}
 }
