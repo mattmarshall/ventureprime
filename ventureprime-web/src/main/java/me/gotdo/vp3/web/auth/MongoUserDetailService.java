@@ -1,4 +1,4 @@
-package me.gotdo.vp3.service;
+package me.gotdo.vp3.web.auth;
 
 import java.util.ArrayList;
 import java.util.Collection;
