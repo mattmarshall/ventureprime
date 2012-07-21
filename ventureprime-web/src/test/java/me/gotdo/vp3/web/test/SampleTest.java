@@ -84,36 +84,60 @@ public class SampleTest extends AbstractJUnit4SpringContextTests {
 	}
 	
 	@Test
-	public void createUsers() {
+	public void canCreateUsers() {
 		
 		// Create mmarshall
 		VPUser mmarshall = userRepo.findOne("mmarshall");
 		if (mmarshall == null) {
 			mmarshall = new VPUser();
-			mmarshall.setId("mmarshall");
-			mmarshall.setActive(true);
-			mmarshall.setCredentials("1234");
-			userRepo.save(mmarshall);
 		}
+		mmarshall.setId("mmarshall");
+		mmarshall.setActive(true);
+		mmarshall.setCredentials("1234");
+		userRepo.save(mmarshall);
 		
 		// Create lharris
 		VPUser lharris = userRepo.findOne("lharris");
 		if (lharris == null) {
 			lharris = new VPUser();
-			lharris.setId("lharris");
-			lharris.setActive(true);
-			lharris.setCredentials("1234");
-			userRepo.save(lharris);
 		}
+		lharris.setId("lharris");
+		lharris.setActive(true);
+		lharris.setCredentials("1234");
+		userRepo.save(lharris);
 		
 		// Create kclayton
 		VPUser kclayton = userRepo.findOne("kclayton");
 		if (kclayton == null) {
 			kclayton = new VPUser();
-			kclayton.setId("kclayton");
-			kclayton.setActive(true);
-			kclayton.setCredentials("1234");
-			userRepo.save(kclayton);
 		}
+		kclayton.setId("kclayton");
+		kclayton.setActive(true);
+		kclayton.setCredentials("1234");
+		userRepo.save(kclayton);
+		
+		// Retrieve users
+		mmarshall = userRepo.findOne("mmarshall");
+		assertNotNull(mmarshall);
+		assertNotNull(mmarshall.getId());
+		assertNotNull(mmarshall.getCredentials());
+		assertEquals("1234", mmarshall.getCredentials());
+		assertTrue(mmarshall.isActive());
+		
+		// Retrieve users
+		lharris = userRepo.findOne("lharris");
+		assertNotNull(lharris);
+		assertNotNull(lharris.getId());
+		assertNotNull(lharris.getCredentials());
+		assertEquals("1234", lharris.getCredentials());
+		assertTrue(lharris.isActive());
+		
+		// Retrieve users
+		kclayton = userRepo.findOne("kclayton");
+		assertNotNull(kclayton);
+		assertNotNull(kclayton.getId());
+		assertNotNull(kclayton.getCredentials());
+		assertEquals("1234", kclayton.getCredentials());
+		assertTrue(kclayton.isActive());
 	}
 }

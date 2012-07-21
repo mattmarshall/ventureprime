@@ -3,7 +3,7 @@ package me.gotdo.vp3.web.model;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+@Document(collection="user")
 public class VPUser extends DocumentBase<VPUser>  {
 
     private String credentials;
@@ -15,8 +15,8 @@ public class VPUser extends DocumentBase<VPUser>  {
 		return credentials;
 	}
 
-	public void setCredentials(String credentials) {
-		this.credentials = credentials;
+	public void setCredentials(String newCredentials) {
+		this.credentials = newCredentials;
 	}
 
 	public Boolean isActive() {
