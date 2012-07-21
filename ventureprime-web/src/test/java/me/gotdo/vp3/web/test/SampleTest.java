@@ -2,6 +2,7 @@ package me.gotdo.vp3.web.test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -96,34 +97,43 @@ public class SampleTest extends AbstractJUnit4SpringContextTests {
 	@Test
 	public void canCreateUsers() {
 		
+		List<String> ventureRoles = new ArrayList<String>();
+		ventureRoles.add("venture");
+		
+		List<String> primerRoles = new ArrayList<String>();
+		primerRoles.add("primer");
+		
 		// Create mmarshall
 		VPUser mmarshall = userRepo.findOne("mmarshall");
 		if (mmarshall == null) {
 			mmarshall = new VPUser();
+			mmarshall.setId("mmarshall");
+			mmarshall.setActive(true);
+			mmarshall.setCredentials("1234");
 		}
-		mmarshall.setId("mmarshall");
-		mmarshall.setActive(true);
-		mmarshall.setCredentials("1234");
+		mmarshall.setRoles(ventureRoles);
 		userRepo.save(mmarshall);
 		
 		// Create lharris
 		VPUser lharris = userRepo.findOne("lharris");
 		if (lharris == null) {
 			lharris = new VPUser();
+			lharris.setId("lharris");
+			lharris.setActive(true);
+			lharris.setCredentials("1234");
 		}
-		lharris.setId("lharris");
-		lharris.setActive(true);
-		lharris.setCredentials("1234");
+		lharris.setRoles(primerRoles);
 		userRepo.save(lharris);
 		
 		// Create kclayton
 		VPUser kclayton = userRepo.findOne("kclayton");
 		if (kclayton == null) {
 			kclayton = new VPUser();
+			kclayton.setId("kclayton");
+			kclayton.setActive(true);
+			kclayton.setCredentials("1234");
 		}
-		kclayton.setId("kclayton");
-		kclayton.setActive(true);
-		kclayton.setCredentials("1234");
+		kclayton.setRoles(ventureRoles);
 		userRepo.save(kclayton);
 		
 		// Retrieve users
@@ -131,6 +141,8 @@ public class SampleTest extends AbstractJUnit4SpringContextTests {
 		assertNotNull(mmarshall);
 		assertNotNull(mmarshall.getId());
 		assertNotNull(mmarshall.getCredentials());
+		assertNotNull(mmarshall.getRoles());
+		assertTrue(mmarshall.getRoles().contains("venture"));
 		assertEquals("1234", mmarshall.getCredentials());
 		assertTrue(mmarshall.isActive());
 		
@@ -139,6 +151,8 @@ public class SampleTest extends AbstractJUnit4SpringContextTests {
 		assertNotNull(lharris);
 		assertNotNull(lharris.getId());
 		assertNotNull(lharris.getCredentials());
+		assertNotNull(lharris.getRoles());
+		assertTrue(lharris.getRoles().contains("primer"));
 		assertEquals("1234", lharris.getCredentials());
 		assertTrue(lharris.isActive());
 		
@@ -147,6 +161,8 @@ public class SampleTest extends AbstractJUnit4SpringContextTests {
 		assertNotNull(kclayton);
 		assertNotNull(kclayton.getId());
 		assertNotNull(kclayton.getCredentials());
+		assertNotNull(kclayton.getRoles());
+		assertTrue(kclayton.getRoles().contains("venture"));
 		assertEquals("1234", kclayton.getCredentials());
 		assertTrue(kclayton.isActive());
 	}
