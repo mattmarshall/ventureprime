@@ -20,7 +20,7 @@
 		</property>
 	</bean>
 
-	<context:component-scan base-package="me.gotdo.vp3.web" />
+	<context:component-scan base-package="me.gotdo.vp3" />
 
 	<!-- Default bean name is 'mongo' -->
 	<mongo:mongo host="${mongo.host.name}" port="${mongo.host.port}" />

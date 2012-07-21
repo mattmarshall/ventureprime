@@ -17,10 +17,7 @@
 	
 	<!-- Custom Authentication Manager -->
 	<authentication-manager>
-		<authentication-provider user-service-ref="usersDetailService" />
+		<authentication-provider user-service-ref="mongoUserDetailService" />
 	</authentication-manager>
-	
-	<!-- Custom User Details Provider -->
-	<beans:bean id="usersDetailService" class="me.gotdo.vp3.service.MongoUserDetailService" />
 
 </beans:beans>
