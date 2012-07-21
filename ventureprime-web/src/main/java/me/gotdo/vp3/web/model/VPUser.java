@@ -1,5 +1,7 @@
 package me.gotdo.vp3.web.model;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,7 +11,10 @@ public class VPUser extends DocumentBase<VPUser>  {
     private String credentials;
     
     @Indexed
-    private Boolean active;
+    private boolean active;
+    
+    @Indexed
+    private List<String> roles;
 
 	public String getCredentials() {
 		return credentials;
@@ -25,6 +30,14 @@ public class VPUser extends DocumentBase<VPUser>  {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+	
+	public List<String> getRoles() {
+		return roles;
+	}
+	
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
 	}
 
 
