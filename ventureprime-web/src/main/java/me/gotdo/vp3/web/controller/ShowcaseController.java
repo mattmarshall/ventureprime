@@ -39,5 +39,14 @@ public class ShowcaseController {
 	public String guide() {
 		return "guide";
 	}
-
+	
+	@RequestMapping(value = "/about", method = RequestMethod.GET)
+	public String about() {
+		return "about";
+	}
+	
+	@RequestMapping(value = "/contact", method = RequestMethod.GET)
+	public String contact() {
+		return "contact";
+	}
 }
