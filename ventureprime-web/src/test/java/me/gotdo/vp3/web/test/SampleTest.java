@@ -7,9 +7,11 @@ import java.util.Random;
 import java.util.UUID;
 
 import me.gotdo.vp3.web.model.Company;
+import me.gotdo.vp3.web.model.Prize;
 import me.gotdo.vp3.web.model.Survey;
 import me.gotdo.vp3.web.model.VPUser;
 import me.gotdo.vp3.web.repository.CompanyRepository;
+import me.gotdo.vp3.web.repository.PrizeRepository;
 import me.gotdo.vp3.web.repository.SurveyRepository;
 import me.gotdo.vp3.web.repository.VPUserRepository;
 
@@ -34,6 +36,9 @@ public class SampleTest extends AbstractJUnit4SpringContextTests {
 	
 	@Autowired
 	private CompanyRepository companyRepo;
+	
+	@Autowired
+	private PrizeRepository prizeRepo;
 
 	@Before
 	public void setUp() throws Exception {
@@ -161,40 +166,152 @@ public class SampleTest extends AbstractJUnit4SpringContextTests {
 		Company onswipe = companyRepo.findByName("Onswipe");
 		if (onswipe == null) {
 			onswipe = new Company();
+			onswipe.setName("Onswipe");
 		}
-		onswipe.setName("Onswipe");
 		companyRepo.save(onswipe);
 
 		// Sendgrid
 		Company sendgrid = companyRepo.findByName("Sendgrid");
 		if (sendgrid == null) {
 			sendgrid = new Company();
+			sendgrid.setName("Sendgrid");
 		}
-		sendgrid.setName("Sendgrid");
 		companyRepo.save(sendgrid);
 
 		// Captimo
 		Company captimo = companyRepo.findByName("Captimo");
 		if (captimo == null) {
 			captimo = new Company();
+			captimo.setName("Captimo");
 		}
-		captimo.setName("Sendgrid");
 		companyRepo.save(captimo);
 		
 		// Lore
 		Company lore = companyRepo.findByName("Lore");
 		if (lore == null) {
 			lore = new Company();
+			lore.setName("Lore");
 		}
-		lore.setName("Lore");
 		companyRepo.save(lore);
 		
 		// GrowVC
 		Company growvc = companyRepo.findByName("GrowVC");
 		if (growvc == null) {
 			growvc = new Company();
+			growvc.setName("GrowVC");
 		}
-		growvc.setName("GrowVC");
 		companyRepo.save(growvc);
+	}
+	
+	@Test
+	public void canCreatePrizes()
+	{
+		// Beats by Dre Studio Headphones
+		Prize beats = prizeRepo.findByName("Beats by Dre Studio Headphones");
+		if (beats == null) {
+			beats = new Prize();
+			beats.setName("Beats by Dre Studio Headphones");
+		}
+		beats.setPoints(450);
+		prizeRepo.save(beats);
+		
+		// 12 Issues Wired Magazine
+		Prize wired = prizeRepo.findByName("12 Issues Wired Magazine");
+		if (wired == null) {
+			wired = new Prize();
+			wired.setName("12 Issues Wired Magazine");
+		}
+		wired.setPoints(35);
+		prizeRepo.save(wired);
+		
+		// $15 Chipotle Gift Card
+		Prize chipotle = prizeRepo.findByName("$15 Chipotle Gift Card");
+		if (chipotle == null) {
+			chipotle = new Prize();
+			chipotle.setName("$15 Chipotle Gift Card");
+		}
+		chipotle.setPoints(20);
+		prizeRepo.save(chipotle);
+		
+		// Two Tickets to Disrupt NYC
+		Prize disrupt = prizeRepo.findByName("Two Tickets to Disrupt NYC");
+		if (disrupt == null) {
+			disrupt = new Prize();
+			disrupt.setName("Two Tickets to Disrupt NYC");
+		}
+		disrupt.setPoints(320);
+		prizeRepo.save(disrupt);
+
+		// Photoshop CS5 Extended
+		Prize photoshop = prizeRepo.findByName("Photoshop CS5 Extended");
+		if (photoshop == null) {
+			photoshop = new Prize();
+			photoshop.setName("Photoshop CS5 Extended");
+		}
+		photoshop.setPoints(900);
+		prizeRepo.save(photoshop);
+		
+		// $20 xkcd Store Gift Card
+		Prize xkcd = prizeRepo.findByName("$20 xkcd Store Gift Card");
+		if (xkcd == null) {
+			xkcd = new Prize();
+			xkcd.setName("$20 xkcd Store Gift Card");
+		}
+		xkcd.setPoints(25);
+		prizeRepo.save(xkcd);
+		
+		// 50% off One Day Bike Rental
+		Prize bike = prizeRepo.findByName("50% off One Day Bike Rental");
+		if (bike == null) {
+			bike = new Prize();
+			bike.setName("50% off One Day Bike Rental");
+		}
+		bike.setPoints(10);
+		prizeRepo.save(bike);
+		
+		// Speedcam Radar Detector
+		Prize radar = prizeRepo.findByName("Speedcam Radar Detector");
+		if (radar == null) {
+			radar = new Prize();
+			radar.setName("Speedcam Radar Detector");
+		}
+		radar.setPoints(80);
+		prizeRepo.save(radar);
+		
+		// 40% off One General Assembly Event
+		Prize ga = prizeRepo.findByName("40% off One General Assembly Event");
+		if (ga == null) {
+			ga = new Prize();
+			ga.setName("40% off One General Assembly Event");
+		}
+		ga.setPoints(15);
+		prizeRepo.save(ga);
+
+		// Xbox 360 Slim 4GB Kinect 2
+		Prize xbox = prizeRepo.findByName("Xbox 360 Slim 4GB Kinect 2");
+		if (xbox == null) {
+			xbox = new Prize();
+			xbox.setName("Xbox 360 Slim 4GB Kinect 2");
+		}
+		xbox.setPoints(240);
+		prizeRepo.save(xbox);
+
+		// Two Tickets to TED Conference
+		Prize ted = prizeRepo.findByName("Two Tickets to TED Conference");
+		if (ted == null) {
+			ted = new Prize();
+			ted.setName("Two Tickets to TED Conference");
+		}
+		ted.setPoints(170);
+		prizeRepo.save(ted);
+
+		// $30 Best Buy Gift Card
+		Prize bestbuy = prizeRepo.findByName("$30 Best Buy Gift Card");
+		if (bestbuy == null) {
+			bestbuy = new Prize();
+			bestbuy.setName("$30 Best Buy Gift Card");
+		}
+		bestbuy.setPoints(50);
+		prizeRepo.save(bestbuy);
 	}
 }
