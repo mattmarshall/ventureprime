@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+import me.gotdo.vp3.web.model.Company;
 import me.gotdo.vp3.web.model.Survey;
 import me.gotdo.vp3.web.model.VPUser;
+import me.gotdo.vp3.web.repository.CompanyRepository;
 import me.gotdo.vp3.web.repository.SurveyRepository;
 import me.gotdo.vp3.web.repository.VPUserRepository;
 
@@ -29,6 +31,9 @@ public class SampleTest extends AbstractJUnit4SpringContextTests {
 	
 	@Autowired
 	private VPUserRepository userRepo;
+	
+	@Autowired
+	private CompanyRepository companyRepo;
 
 	@Before
 	public void setUp() throws Exception {
@@ -139,5 +144,57 @@ public class SampleTest extends AbstractJUnit4SpringContextTests {
 		assertNotNull(kclayton.getCredentials());
 		assertEquals("1234", kclayton.getCredentials());
 		assertTrue(kclayton.isActive());
+	}
+	
+	@Test
+	public void canCreateCompany() {
+		
+		/**
+		 * Onswipe
+		 * Sendgrid
+		 * Captimo
+		 * Lore
+		 * GrowVC
+		 */
+		
+		// Onswipe
+		Company onswipe = companyRepo.findByName("Onswipe");
+		if (onswipe == null) {
+			onswipe = new Company();
+		}
+		onswipe.setName("Onswipe");
+		companyRepo.save(onswipe);
+
+		// Sendgrid
+		Company sendgrid = companyRepo.findByName("Sendgrid");
+		if (sendgrid == null) {
+			sendgrid = new Company();
+		}
+		sendgrid.setName("Sendgrid");
+		companyRepo.save(sendgrid);
+
+		// Captimo
+		Company captimo = companyRepo.findByName("Captimo");
+		if (captimo == null) {
+			captimo = new Company();
+		}
+		captimo.setName("Sendgrid");
+		companyRepo.save(captimo);
+		
+		// Lore
+		Company lore = companyRepo.findByName("Lore");
+		if (lore == null) {
+			lore = new Company();
+		}
+		lore.setName("Lore");
+		companyRepo.save(lore);
+		
+		// GrowVC
+		Company growvc = companyRepo.findByName("GrowVC");
+		if (growvc == null) {
+			growvc = new Company();
+		}
+		growvc.setName("GrowVC");
+		companyRepo.save(growvc);
 	}
 }
