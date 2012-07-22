@@ -9,5 +9,5 @@
 		Create an Effective Test</a> and our <a href="#">How it Works</a> page if
 	you haven't already.
 <p style="margin:10px 5px">Ready to get started?</p>
-<button>Create a Test</button>
+<button onclick="window.location.href='/v/builder/step/1'">Create a Test</button>
 <jsp:include page="include-footer-venture.jsp" />
