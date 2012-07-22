@@ -10,7 +10,7 @@ public class BuilderController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String handleGet() {
-		return "builder-home";
+		return "venture-test-builder-home";
 	}
 	
 }
