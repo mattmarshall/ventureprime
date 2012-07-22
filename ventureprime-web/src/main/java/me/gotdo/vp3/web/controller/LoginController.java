@@ -31,8 +31,8 @@ public class LoginController {
 		// Get linked VPUser
 		VPUser user = userRepository.findOne(name);
 		if (user != null) {
-			mv.addObject("user", user);
 			if (user.getRoles() != null) {
+				
 				List<String> roles = user.getRoles();
 				if (roles.contains("venture")) {
 					mv.setViewName("home-venture");
@@ -41,6 +41,10 @@ public class LoginController {
 				} else {
 					throw new Exception("Bad user, no roles");
 				}
+				
+				// Finally add the user to the view
+				mv.addObject("user", user);
+				
 			} else {
 				throw new Exception("Bad user, roles are null");
 			}

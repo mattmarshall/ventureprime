@@ -15,6 +15,12 @@ public class VPUser extends DocumentBase<VPUser>  {
     
     @Indexed
     private List<String> roles;
+    
+    public String firstName;
+    
+    public String lastName;
+    
+    public String nickName;
 
 	public String getCredentials() {
 		return credentials;
