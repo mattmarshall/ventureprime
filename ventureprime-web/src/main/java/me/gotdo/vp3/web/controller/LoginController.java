@@ -3,6 +3,8 @@ package me.gotdo.vp3.web.controller;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import me.gotdo.vp3.web.model.VPUser;
 import me.gotdo.vp3.web.repository.VPUserRepository;
 
@@ -20,7 +22,7 @@ public class LoginController {
 	private VPUserRepository userRepository;
  
 	@RequestMapping(value="/welcome", method = RequestMethod.GET)
-	public ModelAndView printWelcome(Principal principal ) throws Exception {
+	public ModelAndView printWelcome(HttpServletRequest request, Principal principal ) throws Exception {
 		
 		// Get Spring principal name
 		String name = principal.getName();
@@ -41,6 +43,9 @@ public class LoginController {
 				} else {
 					throw new Exception("Bad user, no roles");
 				}
+				
+				// Add the user to the session
+				request.getSession().setAttribute("user", user);
 				
 				// Finally add the user to the view
 				mv.addObject("user", user);

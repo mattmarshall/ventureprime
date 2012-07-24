@@ -1,3 +1,5 @@
+<%@ page session="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -120,8 +122,15 @@
                 </div>
                 <div style="display: inline-block">
                     <nav>
-                        <a href="/login">Login</a>
-                        <a href="/register">Register</a>
+                    	<c:choose>
+						    <c:when test="${user != null}">
+						    	<a href="/logout">Logout</a>
+						    </c:when>
+						    <c:otherwise>
+						    	<a href="/login">Login</a>
+						    	<a href="/register">Register</a>
+							</c:otherwise>
+						</c:choose>
                     </nav>
                 </div>
             </div>
