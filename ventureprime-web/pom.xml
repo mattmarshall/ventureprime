@@ -62,23 +62,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Jackson JSON Mapper -->
-		 <dependency>
-		     <groupId>org.codehaus.jackson</groupId>
-		     <artifactId>jackson-core-lgpl</artifactId>
-		     <version>1.6.4</version>
-		 </dependency>
-		 <dependency>
-		     <groupId>org.codehaus.jackson</groupId>
-		     <artifactId>jackson-mapper-lgpl</artifactId>
-		     <version>1.6.4</version>
-		 </dependency>
-		 <dependency>
-		     <groupId>org.codehaus.jackson</groupId>
-		     <artifactId>jackson-xc</artifactId>
-		     <version>1.6.4</version>
-		 </dependency>
-
 		<!-- Spring 3 -->
 		<dependency>
 			<groupId>org.springframework</groupId>

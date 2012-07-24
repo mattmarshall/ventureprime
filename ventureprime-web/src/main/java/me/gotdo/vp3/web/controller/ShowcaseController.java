@@ -55,13 +55,4 @@ public class ShowcaseController {
 	public String contact() {
 		return "contact";
 	}
-	
-	@RequestMapping(value = "/json", method = RequestMethod.GET)
-	@ResponseBody
-	public DefaultSurveyTask getTaskInJson() {
-		DefaultSurveyTask task = new DefaultSurveyTask();
-		task.setTaskName("Please enter your credentials");
-		task.setTaskDetails("We need you to chamone");
-		return task;
-	}
 }
