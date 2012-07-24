@@ -2,6 +2,9 @@ package me.gotdo.vp3.web.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import me.gotdo.vp3.web.model.survey.SurveyTask;
+
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,6 +18,16 @@ public class Survey extends DocumentBase<Survey> {
 	private String friendlyName;
 	
 	private String description;
+	
+	private String surveyReason;
+	
+	private int maxParticipants;
+	
+	private String eligibleGroup;
+	
+	private int testLevel;
+	
+	private List<SurveyTask> tasks;
 	
 	private List<SurveyQuestion> questions;
 	
@@ -46,12 +59,52 @@ public class Survey extends DocumentBase<Survey> {
 		this.description = description;
 	}
 	
+	public String getSurveyReason() {
+		return surveyReason;
+	}
+
+	public void setSurveyReason(String surveyReason) {
+		this.surveyReason = surveyReason;
+	}
+
+	public int getMaxParticipants() {
+		return maxParticipants;
+	}
+
+	public void setMaxParticipants(int maxParticipants) {
+		this.maxParticipants = maxParticipants;
+	}
+
+	public String getEligibleGroup() {
+		return eligibleGroup;
+	}
+
+	public void setEligibleGroup(String eligibleGroup) {
+		this.eligibleGroup = eligibleGroup;
+	}
+
+	public int getTestLevel() {
+		return testLevel;
+	}
+
+	public void setTestLevel(int testLevel) {
+		this.testLevel = testLevel;
+	}
+
 	public List<SurveyQuestion> getQuestions() {
 		return questions;
 	}
 
 	public void setQuestions(List<SurveyQuestion> questions) {
 		this.questions = questions;
+	}
+
+	public List<SurveyTask> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(List<SurveyTask> tasks) {
+		this.tasks = tasks;
 	}
 
 	@Override

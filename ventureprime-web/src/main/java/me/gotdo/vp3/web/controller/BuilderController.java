@@ -1,8 +1,6 @@
 package me.gotdo.vp3.web.controller;
 
-import me.gotdo.vp3.web.component.SurveyBuilderTestComponent;
-import me.gotdo.vp3.web.model.Survey;
-
+import me.gotdo.vp3.web.component.SurveyBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -17,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class BuilderController {
 	
 	@Autowired
-	private SurveyBuilderTestComponent component;
+	private SurveyBuilder surveyBuilder;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String handleGet() {
