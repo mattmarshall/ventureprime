@@ -12,15 +12,17 @@
         http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
         http://www.springframework.org/schema/beans     
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
-
+	
+	<mvc:annotation-driven />
+	
+	<context:component-scan base-package="me.gotdo.vp3" />
+	
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location">
 			<value>classpath:mongo.properties</value>
 		</property>
 	</bean>
-
-	<context:component-scan base-package="me.gotdo.vp3" />
 
 	<!-- Default bean name is 'mongo' -->
 	<mongo:mongo host="${mongo.host.name}" port="${mongo.host.port}" />

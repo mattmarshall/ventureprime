@@ -1,6 +1,8 @@
 package me.gotdo.vp3.web.model.survey;
 
-public class DefaultSurveyTask implements SurveyTask {
+import java.io.Serializable;
+
+public class DefaultSurveyTask implements SurveyTask, Serializable {
 	
 	private String taskName;
 	

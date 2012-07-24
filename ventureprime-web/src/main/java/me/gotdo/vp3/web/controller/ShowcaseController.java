@@ -1,13 +1,19 @@
 package me.gotdo.vp3.web.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import me.gotdo.vp3.web.model.survey.DefaultSurveyTask;
 import me.gotdo.vp3.web.repository.CompanyRepository;
 import me.gotdo.vp3.web.repository.PrizeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class ShowcaseController {
@@ -48,5 +54,14 @@ public class ShowcaseController {
 	@RequestMapping(value = "/contact", method = RequestMethod.GET)
 	public String contact() {
 		return "contact";
+	}
+	
+	@RequestMapping(value = "/json", method = RequestMethod.GET)
+	@ResponseBody
+	public DefaultSurveyTask getTaskInJson() {
+		DefaultSurveyTask task = new DefaultSurveyTask();
+		task.setTaskName("Please enter your credentials");
+		task.setTaskDetails("We need you to chamone");
+		return task;
 	}
 }
