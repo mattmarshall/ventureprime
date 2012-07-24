@@ -1,8 +1,7 @@
 package me.gotdo.vp3.web.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,10 +16,10 @@ public class Survey extends DocumentBase<Survey> {
 	
 	private String description;
 	
-	private Map<String, String> questionsAndAnswers;
+	private List<SurveyQuestion> questions;
 	
 	public Survey() {
-		this.questionsAndAnswers = new HashMap<String, String>();
+		this.questions = new ArrayList<SurveyQuestion>();
 	}
 
 	public String getCreatorId() {
@@ -47,18 +46,13 @@ public class Survey extends DocumentBase<Survey> {
 		this.description = description;
 	}
 	
-	public Map<String, String> getQuestionsAndAnswers() {
-		return questionsAndAnswers;
+	public List<SurveyQuestion> getQuestions() {
+		return questions;
 	}
 
-	public void setQuestionsAndAnswers(Map<String, String> questionsAndAnswers) {
-		this.questionsAndAnswers = questionsAndAnswers;
+	public void setQuestions(List<SurveyQuestion> questions) {
+		this.questions = questions;
 	}
-	
-	public Survey addQuestionAndAnswer(String question, String answer) {
-	    this.questionsAndAnswers.put(question, answer);
-	    return this;
-	  }
 
 	@Override
 	public DocumentBase<Survey> upgradeTo(long schemaVersion) {

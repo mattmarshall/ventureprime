@@ -3,6 +3,7 @@ package me.gotdo.vp3.web.controller;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import me.gotdo.vp3.web.model.VPUser;
@@ -74,9 +75,9 @@ public class LoginController {
 	}
  
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
-	public String logout(ModelMap model) {
- 
-		return "login";
+	public String logout(HttpServletRequest request, ModelMap model) throws ServletException {
+		request.getSession().invalidate();
+		return "logout";
  
 	}
 	
