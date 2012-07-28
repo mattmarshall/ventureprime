@@ -21,6 +21,8 @@
 			</activation>
 			<properties>
 				<env>local</env>
+				<props.tomcat.url>http://localhost:8090/manager/html</props.tomcat.url>
+				<props.tomcat.server>localhost</props.tomcat.server>
 				<props.mongo.host.name>localhost</props.mongo.host.name>
 				<props.mongo.host.port>27017</props.mongo.host.port>
 				<props.mongo.db.name>ventureprime</props.mongo.db.name>
@@ -32,6 +34,8 @@
 			<id>dev</id>
 			<properties>
 				<env>dev</env>
+				<props.tomcat.url>http://10.0.0.250:8080/manager/text</props.tomcat.url>
+				<props.tomcat.server>dev.vp3.ventureprime.net</props.tomcat.server>
 				<props.mongo.host.name>10.0.0.250</props.mongo.host.name>
 				<props.mongo.host.port>27017</props.mongo.host.port>
 				<props.mongo.db.name>ventureprime</props.mongo.db.name>
@@ -60,6 +64,25 @@
 			<artifactId>junit</artifactId>
 			<version>3.8.1</version>
 			<scope>test</scope>
+		</dependency>
+		
+		<!-- Jackson JSON Mapper -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.codehaus.jackson</groupId>
+		    <artifactId>jackson-xc</artifactId>
+		    <version>1.4.0</version>
 		</dependency>
 
 		<!-- Spring 3 -->
@@ -132,7 +155,7 @@
 			<version>${spring.version}</version>
 			<type>jar</type>
 			<scope>test</scope>
-		</dependency>
+		</dependency>   
 
 		<!-- Amazon SDK -->
 		<dependency>
@@ -140,20 +163,23 @@
 			<artifactId>aws-java-sdk</artifactId>
 			<version>1.0.002</version>
 		</dependency>
-
+		
+		<!-- J2EE Servlets -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.0.1</version>
 			<scope>provided</scope>
 		</dependency>
-
+		
+		<!-- JSTL Contracts -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-
+		
+		<!-- JSTL Implementation -->
 		<dependency>
 			<groupId>org.glassfish.web</groupId>
 			<artifactId>jstl-impl</artifactId>
@@ -221,8 +247,8 @@
 				<artifactId>tomcat-maven-plugin</artifactId>
 				<version>1.1</version>
 				<configuration>
-					<url>http://10.0.0.250:8080/manager/text</url>
-					<server>dev.vp3.ventureprime.net</server>
+					<url>${props.tomcat.url}</url>
+					<server>${props.tomcat.server}</server>
 					<update>true</update>
 					<path>/</path>
 				</configuration>

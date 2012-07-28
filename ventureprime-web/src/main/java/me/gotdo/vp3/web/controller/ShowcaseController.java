@@ -3,6 +3,8 @@ package me.gotdo.vp3.web.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import me.gotdo.vp3.web.model.survey.DefaultSurveyTask;
 import me.gotdo.vp3.web.repository.CompanyRepository;
 import me.gotdo.vp3.web.repository.PrizeRepository;
@@ -54,5 +56,11 @@ public class ShowcaseController {
 	@RequestMapping(value = "/contact", method = RequestMethod.GET)
 	public String contact() {
 		return "contact";
+	}
+	
+	@RequestMapping(value = "/duck", method = RequestMethod.GET, headers="Accept=*/*")
+	public @ResponseBody DefaultSurveyTask getTask() {
+		DefaultSurveyTask task = new DefaultSurveyTask();
+		return task;
 	}
 }

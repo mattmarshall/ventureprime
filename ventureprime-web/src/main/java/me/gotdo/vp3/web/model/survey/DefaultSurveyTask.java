@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 public class DefaultSurveyTask implements SurveyTask, Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String taskName;
 	
 	private String taskDetails;
