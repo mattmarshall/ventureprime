@@ -13,11 +13,29 @@ $(document).ready(function(){
 		alert('You are deleting a task!');
 		return false;
 	});
-	
+
 	// Enable the add new task button
 	$('a#newTask').click(function() {
-		$('ol#tasks').append($('<li>').load('/assets/ajax/test-task-entry.html'));
-		
+		var li = $(document.createElement('li'));
+		li.load('/assets/ajax/test-task-entry.html',  function() {
+			var link = $(this).find('a.delete').click(function() {
+				li.remove();
+
+				var taskCount = $('ol#tasks li').length;
+				if (taskCount == 0) {
+					$('p#noTasks').show();
+				}
+
+				return false;
+			});
+			
+			$('ol#tasks').append(li);
+		});
+
+		// Remove notice
+		$('p#noTasks').hide();
+
+		/*
 		$.ajax({
 			type: "POST",
 			url: './2/addTask',
@@ -29,6 +47,7 @@ $(document).ready(function(){
 				// alert(data.title);
 			}
 		})
+		*/
 		
 		return false;
 	});
@@ -51,7 +70,7 @@ $(document).ready(function(){
   		</ol>
   </c:when>
   <c:otherwise>
-  	<p>You have no tasks attached to this test, better create some.</p>
+  	<p id="noTasks">You have no tasks attached to this test, better create some.</p>
   	<ol id="tasks"></ol>
   </c:otherwise>
 </c:choose>
