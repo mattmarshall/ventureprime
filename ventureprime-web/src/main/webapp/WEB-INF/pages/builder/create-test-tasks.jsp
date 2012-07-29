@@ -16,7 +16,7 @@ $(document).ready(function(){
 	
 	// Enable the add new task button
 	$('a#newTask').click(function() {
-		$('div#tasks').append('<div>Another task...</div>')
+		$('ol#tasks').append($('<li>').load('/assets/ajax/test-task-entry.html'));
 		
 		$.ajax({
 			type: "POST",
@@ -26,7 +26,7 @@ $(document).ready(function(){
 			async: false,
 			data: '{ "description" : "My Description", "title" : "My Title" }',
 			success: function (data, textStatus, jqXHR) {
-				alert(data.title);
+				// alert(data.title);
 			}
 		})
 		
@@ -37,20 +37,22 @@ $(document).ready(function(){
 
 <c:choose>
   <c:when test="${(testTasks != null) and (not empty testTasks)}">
-  <div id="tasks">
+ 		<ol id="tasks">
     	<c:forEach var="task" varStatus="status" items="${testTasks}">
 		<!-- TASK -->
+		<li id="task${status.index}">
 		<div style="border-top: 1px solid gray; border-bottom: 1px solid gray; margin: 10px 0; padding: 10px;">
 			<div style="float:right"><a href="#">Edit</a>&nbsp;&nbsp;<a class="delete" href="deleteTask/${status.index}">Delete</a></div>
 			<h2>${task.title}</h2>
 			<p style="margin: 10px 0; clear:right">${task.description}</p>
 		</div>
+		</li>
   	</c:forEach>
-  	</div>
+  		</ol>
   </c:when>
   <c:otherwise>
   	<p>You have no tasks attached to this test, better create some.</p>
-  	<div id="tasks"></div>
+  	<ol id="tasks"></ol>
   </c:otherwise>
 </c:choose>
 
