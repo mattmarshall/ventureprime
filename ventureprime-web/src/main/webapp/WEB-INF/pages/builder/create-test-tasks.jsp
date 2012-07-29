@@ -13,14 +13,23 @@ $(document).ready(function(){
 		alert('You are deleting a task!');
 		return false;
 	});
+	
+	function updateIndexes() {
+		$('ol#tasks li').each(function() {
+			var index = $('ol#tasks li').index(this);
+			$(this).find('input.taskTitle').attr('name', 'taskTitle[' + index + ']');
+			$(this).find('textarea.taskDescription').attr('name', 'taskDescription[' + index + ']');
+		});
+	}
 
 	// Enable the add new task button
 	$('a#newTask').click(function() {
 		var li = $(document.createElement('li'));
 		li.load('/assets/ajax/test-task-entry.html',  function() {
+			
 			var link = $(this).find('a.delete').click(function() {
 				li.remove();
-
+				updateIndexes();
 				var taskCount = $('ol#tasks li').length;
 				if (taskCount == 0) {
 					$('p#noTasks').show();
@@ -30,6 +39,8 @@ $(document).ready(function(){
 			});
 			
 			$('ol#tasks').append(li);
+			updateIndexes();
+			
 		});
 
 		// Remove notice
