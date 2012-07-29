@@ -1,5 +1,6 @@
 package me.gotdo.vp3.web.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -21,8 +22,15 @@ public class Test extends DocumentBase<Test> {
 	@Indexed
 	private TestStatus testStatus;
 	
+	private List<TestTask> tasks;
+	
 	@DBRef
 	private List<Survey> surveys;
+	
+	public Test() {
+		tasks = new ArrayList<TestTask>();
+		surveys = new ArrayList<Survey>();
+	}
 
 	public Company getCompany() {
 		return company;
@@ -48,7 +56,7 @@ public class Test extends DocumentBase<Test> {
 		this.testLevel = testLevel;
 	}
 	
-	public TestStatus getStatus() {
+	public TestStatus getTestStatus() {
 		return testStatus;
 	}
 	
@@ -56,6 +64,14 @@ public class Test extends DocumentBase<Test> {
 		this.testStatus = testStatus;
 	}
 	
+	public List<TestTask> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(List<TestTask> tasks) {
+		this.tasks = tasks;
+	}
+
 	public List<Survey> getSurveys() {
 		return surveys;
 	}

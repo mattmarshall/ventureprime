@@ -46,7 +46,9 @@ public class TestBuilder {
 			throw new Exception();
 		}
 		test.setTestLevel(level);
-		test = testRepo.save(test);
+		
+		// TODO: Are we saving tests that are under construction?
+		// test = testRepo.save(test);
 	}
 
 }
