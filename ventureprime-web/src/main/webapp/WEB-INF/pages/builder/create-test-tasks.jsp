@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../include-header-venture.jsp" />
-<h1>Create Tasks</h1>
+<h1>Create Tasks for ${test.testName}</h1>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -68,9 +68,9 @@ $(document).ready(function(){
 <form name="testTask" action="" method="post">
 
 <c:choose>
-  <c:when test="${not empty testTasks}">
+  <c:when test="${not empty test.tasks}">
  		<ol id="tasks">
-    	<c:forEach var="task" varStatus="status" items="${testTasks}">
+    	<c:forEach var="task" varStatus="status" items="${test.tasks}">
 		<!-- TASK -->
 		<li id="task${status.index}">
 		<div style="border-top: 1px solid gray; border-bottom: 1px solid gray; margin: 10px 0; padding: 10px;">

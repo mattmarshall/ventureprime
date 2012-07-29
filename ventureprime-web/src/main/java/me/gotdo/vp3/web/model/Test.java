@@ -13,11 +13,14 @@ public class Test extends DocumentBase<Test> {
 	@DBRef
 	private Company company;
 	
+	@DBRef
+	private VPUser creator;
+	
 	@Indexed
 	private String testName;
 	
-	@DBRef
-	private TestLevel testLevel;
+	@Indexed
+	private String testLevelId;
 	
 	@Indexed
 	private TestStatus testStatus;
@@ -48,12 +51,12 @@ public class Test extends DocumentBase<Test> {
 		this.testName = testName;
 	}
 
-	public TestLevel getTestLevel() {
-		return testLevel;
+	public String getTestLevelId() {
+		return testLevelId;
 	}
 
-	public void setTestLevel(TestLevel testLevel) {
-		this.testLevel = testLevel;
+	public void setTestLevelId(String testLevelId) {
+		this.testLevelId = testLevelId;
 	}
 	
 	public TestStatus getTestStatus() {
@@ -83,6 +86,14 @@ public class Test extends DocumentBase<Test> {
 	@Override
 	public DocumentBase<Test> upgradeTo(long newVersion) {
 		return this;
+	}
+
+	public VPUser getCreator() {
+		return creator;
+	}
+
+	public void setCreator(VPUser creator) {
+		this.creator = creator;
 	}
 
 }
