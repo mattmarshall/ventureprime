@@ -6,7 +6,8 @@
         <meta charset="utf-8" />
         <title>VenturePrime</title>
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.3.0/build/cssreset/reset-min.css" />
-        <link rel="stylesheet" type="text/css" href="/assets/css/style.css" />        
+        <link rel="stylesheet" type="text/css" href="/assets/css/style.css" />
+    	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
         <!--[if gte IE 9]>
             <style type="text/css">
                 .gradient {

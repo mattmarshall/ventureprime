@@ -90,3 +90,7 @@ div#vp-header-right {
 	left: -5px;
 	vertical-align: bottom;
 }
+
+.selected {
+	background: #FFF79A;
+}
