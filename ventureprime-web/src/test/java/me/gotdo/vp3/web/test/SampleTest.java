@@ -10,10 +10,12 @@ import java.util.UUID;
 import me.gotdo.vp3.web.model.Company;
 import me.gotdo.vp3.web.model.Prize;
 import me.gotdo.vp3.web.model.Survey;
+import me.gotdo.vp3.web.model.TestLevel;
 import me.gotdo.vp3.web.model.VPUser;
 import me.gotdo.vp3.web.repository.CompanyRepository;
 import me.gotdo.vp3.web.repository.PrizeRepository;
 import me.gotdo.vp3.web.repository.SurveyRepository;
+import me.gotdo.vp3.web.repository.TestLevelRepository;
 import me.gotdo.vp3.web.repository.VPUserRepository;
 
 import org.junit.After;
@@ -40,6 +42,9 @@ public class SampleTest extends AbstractJUnit4SpringContextTests {
 	
 	@Autowired
 	private PrizeRepository prizeRepo;
+	
+	@Autowired
+	private TestLevelRepository testLevelRepo;
 
 	@Before
 	public void setUp() throws Exception {
@@ -329,5 +334,61 @@ public class SampleTest extends AbstractJUnit4SpringContextTests {
 		}
 		bestbuy.setPoints(50);
 		prizeRepo.save(bestbuy);
+	}
+	
+	@Test
+	public void canCreateTestLevels() {
+		
+		TestLevel level = null;
+		
+		// Level 1
+		level = testLevelRepo.findByFriendlyName("Level 1");
+		if (level == null) {
+			level = new TestLevel();
+			level.setFriendlyName("Level 1");
+			level.setDescription("Description 1");
+			level.setPrice(0);
+			testLevelRepo.save(level);
+		}
+		
+		// Level 2
+		level = testLevelRepo.findByFriendlyName("Level 2");
+		if (level == null) {
+			level = new TestLevel();
+			level.setFriendlyName("Level 2");
+			level.setDescription("Description 2");
+			level.setPrice(50);
+			testLevelRepo.save(level);
+		}
+		
+		// Level 3
+		level = testLevelRepo.findByFriendlyName("Level 3");
+		if (level == null) {
+			level = new TestLevel();
+			level.setFriendlyName("Level 3");
+			level.setDescription("Description 3");
+			level.setPrice(150);
+			testLevelRepo.save(level);
+		}
+		
+		// Level 4
+		level = testLevelRepo.findByFriendlyName("Level 4");
+		if (level == null) {
+			level = new TestLevel();
+			level.setFriendlyName("Level 4");
+			level.setDescription("Description 4");
+			level.setPrice(300);
+			testLevelRepo.save(level);
+		}
+		
+		// Level 5
+		level = testLevelRepo.findByFriendlyName("Level 5");
+		if (level == null) {
+			level = new TestLevel();
+			level.setFriendlyName("Level 5");
+			level.setDescription("Description 5");
+			level.setPrice(500);
+			testLevelRepo.save(level);
+		}
 	}
 }

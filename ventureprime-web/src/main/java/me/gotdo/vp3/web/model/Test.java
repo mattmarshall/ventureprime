@@ -1,5 +1,7 @@
 package me.gotdo.vp3.web.model;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,8 +15,14 @@ public class Test extends DocumentBase<Test> {
 	@Indexed
 	private String testName;
 	
+	@DBRef
+	private TestLevel testLevel;
+	
 	@Indexed
-	private int testLevel;
+	private TestStatus testStatus;
+	
+	@DBRef
+	private List<Survey> surveys;
 
 	public Company getCompany() {
 		return company;
@@ -32,12 +40,28 @@ public class Test extends DocumentBase<Test> {
 		this.testName = testName;
 	}
 
-	public int getTestLevel() {
+	public TestLevel getTestLevel() {
 		return testLevel;
 	}
 
-	public void setTestLevel(int testLevel) {
+	public void setTestLevel(TestLevel testLevel) {
 		this.testLevel = testLevel;
+	}
+	
+	public TestStatus getStatus() {
+		return testStatus;
+	}
+	
+	public void setTestStatus(TestStatus testStatus) {
+		this.testStatus = testStatus;
+	}
+	
+	public List<Survey> getSurveys() {
+		return surveys;
+	}
+	
+	public void setSurveys(List<Survey> surveys) {
+		this.surveys = surveys;
 	}
 
 	@Override

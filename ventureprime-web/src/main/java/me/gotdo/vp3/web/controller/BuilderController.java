@@ -1,6 +1,7 @@
 package me.gotdo.vp3.web.controller;
 
-import me.gotdo.vp3.web.component.SurveyBuilder;
+import me.gotdo.vp3.web.component.TestBuilder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class BuilderController {
 	
 	@Autowired
-	private SurveyBuilder surveyBuilder;
+	private TestBuilder testBuilder;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String handleGet() {
@@ -28,4 +29,9 @@ public class BuilderController {
 		return "builder/step-" + step;
 	}
 	
+	@RequestMapping(value = "/testLevels", method = RequestMethod.GET)
+	public String showTestLevels(ModelMap map) {
+		map.addAttribute("testLevels", testBuilder.getTestLevels());
+		return "builder/select-test-level";
+	}
 }
