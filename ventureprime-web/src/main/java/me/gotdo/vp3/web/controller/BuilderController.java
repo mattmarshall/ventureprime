@@ -1,5 +1,10 @@
 package me.gotdo.vp3.web.controller;
 
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import me.gotdo.vp3.web.component.TestBuilder;
@@ -65,6 +70,38 @@ public class BuilderController {
 		return mv;
 	}
 	
+	@RequestMapping(value = "/step/2", method = RequestMethod.POST)
+	public ModelAndView submitTestTasks(HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect:../step/3");
+		
+		// Check for POST data
+		Map<String, String[]> map = request.getParameterMap();
+		if (!(map.containsKey("taskTitle") && map.containsKey("taskDescription"))) {
+			throw new Exception("POST data was not submitted");
+		}
+		
+		String[] titles = map.get("taskTitle");
+		String[] descriptions = map.get("taskDescription");
+		
+		// Ugly hackery validation (will suffice for now
+		if ((titles == null) || (descriptions == null) || (titles.length != descriptions.length)) {
+			throw new Exception("Arrays are null or not the same length");
+		}
+		
+		List<TestTask> tasks = new ArrayList<TestTask>();
+		for (int i = 0; i < titles.length; i++) {
+			TestTask task = new TestTask();
+			task.setTitle(titles[i]);
+			task.setDescription(descriptions[i]);
+		}
+		
+		// Set it in the test builder
+		testBuilder.getTest().setTasks(tasks);
+		
+		return mv;
+	}
+	
 	@RequestMapping(value = "/step/2/addTask", method = RequestMethod.POST, headers="Accept=*/*")
 	public @ResponseBody TestTask addTask(@RequestBody TestTask task)
 	{
@@ -79,13 +116,6 @@ public class BuilderController {
 		TestTask newTask = new TestTask();
 		newTask.setTitle("My Title");
 		return newTask;
-	}
-	
-	@RequestMapping(value = "/step/2", method = RequestMethod.POST)
-	public ModelAndView submitTestTasks(HttpServletRequest request) {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("redirect:../step/3");
-		return mv;
 	}
 	
 	

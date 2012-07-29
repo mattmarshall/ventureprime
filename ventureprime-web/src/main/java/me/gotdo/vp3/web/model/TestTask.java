@@ -4,9 +4,19 @@ import java.io.Serializable;
 
 public class TestTask implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String title;
 	
 	private String description;
+	
+	public TestTask() {
+		title = "";
+		description = "";
+	}
 
 	public String getTitle() {
 		return title;

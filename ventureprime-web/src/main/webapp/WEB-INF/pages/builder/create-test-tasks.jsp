@@ -17,8 +17,8 @@ $(document).ready(function(){
 	function updateIndexes() {
 		$('ol#tasks li').each(function() {
 			var index = $('ol#tasks li').index(this);
-			$(this).find('input.taskTitle').attr('name', 'taskTitle[' + index + ']');
-			$(this).find('textarea.taskDescription').attr('name', 'taskDescription[' + index + ']');
+			$(this).find('input.taskTitle').attr('name', 'taskTitle').attr('id', 'taskTitle' + index)
+			$(this).find('textarea.taskDescription').attr('name', 'taskDescription').attr('id', 'taskDescription' + index);
 		});
 	}
 
@@ -65,8 +65,10 @@ $(document).ready(function(){
 });
 </script>
 
+<form name="testTask" action="" method="post">
+
 <c:choose>
-  <c:when test="${(testTasks != null) and (not empty testTasks)}">
+  <c:when test="${not empty testTasks}">
  		<ol id="tasks">
     	<c:forEach var="task" varStatus="status" items="${testTasks}">
 		<!-- TASK -->
@@ -93,6 +95,7 @@ $(document).ready(function(){
 
 
 <p>
-	<a href="/v/builder/step/${nextStep}">Next</a>
+	<input type="submit" name="submit" value="Next" />
 </p>
+</form>
 <jsp:include page="../include-footer-venture.jsp" />
