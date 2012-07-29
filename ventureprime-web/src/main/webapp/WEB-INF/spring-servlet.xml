@@ -10,14 +10,20 @@
         http://www.springframework.org/schema/context/spring-context-3.1.xsd
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
- 
-	<context:component-scan base-package="me.gotdo.vp3" />
- 
+        
+    <!-- Search packages for components -->    
+    <context:component-scan base-package="me.gotdo.vp3" />
+	
+	<!-- Static Resources -->
+	<mvc:resources location="/assets/" mapping="/assets/**"/>
+	
+	<!-- Use annotations -->
 	<mvc:annotation-driven />
  
 	<!-- Default view resolver -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-	  <property name="order" value="2" />
+		<property name="order" value="2" />
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
 		<property name="prefix">
 			<value>/WEB-INF/pages/</value>
 		</property>
