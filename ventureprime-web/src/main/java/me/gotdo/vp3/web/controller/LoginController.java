@@ -38,9 +38,9 @@ public class LoginController {
 				
 				List<String> roles = user.getRoles();
 				if (roles.contains("venture")) {
-					mv.setViewName("home-venture");
+					mv.setViewName("redirect:/v");
 				} else if (roles.contains("primer")) {
-					mv.setViewName("home-primer");
+					mv.setViewName("redirect:/p");
 				} else {
 					throw new Exception("Bad user, no roles");
 				}
