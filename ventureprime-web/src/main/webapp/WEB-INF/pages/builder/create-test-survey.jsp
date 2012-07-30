@@ -34,6 +34,7 @@ $(document).ready(function(){
 			if (taskCount == 0) {
 				$('p#noTasks').show();
 			}
+			return false;
 		}
 		
 		li.load('/assets/ajax/survey-question-entry.html',  function() {
