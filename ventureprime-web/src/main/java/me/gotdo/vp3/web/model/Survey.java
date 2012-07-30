@@ -3,16 +3,16 @@ package me.gotdo.vp3.web.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.gotdo.vp3.web.model.survey.SurveyTask;
-
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="survey")
 public class Survey extends DocumentBase<Survey> {
 	
 	@Indexed
-	private String creatorId;
+	@DBRef
+	private Test test;
 	
 	@Indexed
 	private String friendlyName;
@@ -25,22 +25,18 @@ public class Survey extends DocumentBase<Survey> {
 	
 	private String eligibleGroup;
 	
-	private int testLevel;
-	
-	private List<SurveyTask> tasks;
-	
 	private List<SurveyQuestion> questions;
 	
 	public Survey() {
 		this.questions = new ArrayList<SurveyQuestion>();
 	}
-
-	public String getCreatorId() {
-		return creatorId;
+	
+	public Test getTest() {
+		return test;
 	}
 
-	public void setCreatorId(String creatorId) {
-		this.creatorId = creatorId;
+	public void setTest(Test test) {
+		this.test = test;
 	}
 
 	public String getFriendlyName() {
@@ -83,14 +79,6 @@ public class Survey extends DocumentBase<Survey> {
 		this.eligibleGroup = eligibleGroup;
 	}
 
-	public int getTestLevel() {
-		return testLevel;
-	}
-
-	public void setTestLevel(int testLevel) {
-		this.testLevel = testLevel;
-	}
-
 	public List<SurveyQuestion> getQuestions() {
 		return questions;
 	}
@@ -99,20 +87,8 @@ public class Survey extends DocumentBase<Survey> {
 		this.questions = questions;
 	}
 
-	public List<SurveyTask> getTasks() {
-		return tasks;
-	}
-
-	public void setTasks(List<SurveyTask> tasks) {
-		this.tasks = tasks;
-	}
-
 	@Override
 	public DocumentBase<Survey> upgradeTo(long schemaVersion) {
-		if (schemaVersion <= 0) {
-			DocumentMeta newMeta = new DocumentMeta(100, 100);
-			this.setMetadata(newMeta);
-		}
 		return this;
 	}
 }

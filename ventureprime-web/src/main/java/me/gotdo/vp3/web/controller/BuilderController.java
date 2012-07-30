@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import me.gotdo.vp3.web.model.Survey;
 import me.gotdo.vp3.web.model.Test;
 import me.gotdo.vp3.web.model.TestTask;
 import me.gotdo.vp3.web.model.VPUser;
@@ -113,6 +114,13 @@ public class BuilderController {
 		// Set it in the test builder
 		test.setTasks(tasks);
 		
+		// For now we'll create one default survey
+		List<Survey> surveys = new ArrayList<Survey>();
+		Survey survey = new Survey();
+		survey.setTest(test);
+		surveys.add(survey);
+		test.setSurveys(surveys);
+		
 		return "redirect:../step/3";
 	}
 	
@@ -122,7 +130,7 @@ public class BuilderController {
 	
 	@RequestMapping(value = "/step/3", method = RequestMethod.GET)
 	public String buildStep(@ModelAttribute("test") Test test) {
-		return "builder/step-3";
+		return "builder/create-test-survey";
 	}
 	
 	/*
