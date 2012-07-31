@@ -7,9 +7,13 @@
 	</div>
 	<div style="display:inline-block; vertical-align:top; border-left: 1px solid gray; padding-left: 10px; width: 850px">
 		<div style="float:right"><a class="delete" href="deleteQuestion">Delete</a></div>
-		<h2>Multiple Choice</h2>
+		<div><input placeholder="Edit question text" type="text" style="width:80%" /></div>
 		<div>
-			<p>Multiple choice question type</p>
+			<p class="noMcChoices" style="margin:10px">There are no choices yet for this question, better add some.</p>
+			<ul class="mcChoices" style="list-style-type:circle"></ul>
+		</div>
+		<div style="text-align:center">
+			<a href="newMcChoice" class="newMcChoice">+ NEW CHOICE</a>
 		</div>
 	</div>
 </div>

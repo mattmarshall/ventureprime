@@ -55,6 +55,13 @@ $(document).ready(function(){
 					// Multiple coice loaded
 					updateIndexes();
 					$(this).find('a.delete').click(deleteQuestion);
+					var mcChoices = $(this).find('ul.mcChoices');
+					var template = $(document.createElement('li')).load('/assets/ajax/survey-mc-choice.html');
+					$(this).find('a.newMcChoice').click(function() {
+						var choice = template.clone();
+						mcChoices.append(choice);
+						return false;
+					});
 				});
 				return false;
 			});
