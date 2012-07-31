@@ -94,3 +94,7 @@ div#vp-header-right {
 .selected {
 	background: #FFF79A;
 }
+
+.hidden {
+	display: none;
+}

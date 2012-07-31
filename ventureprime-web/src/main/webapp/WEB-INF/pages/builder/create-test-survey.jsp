@@ -69,6 +69,18 @@ $(document).ready(function(){
 							}
 							return false;
 						});
+						choice.find('input.choiceInput').blur(function() {
+							choice.find('span.choiceText').first().html($(this).val()).removeClass('hidden');
+							$(this).addClass('hidden');
+							choice.find('a.editChoice').removeClass('hidden');
+						});
+						choice.find('a.editChoice').click(function() {
+							$(this).addClass('hidden');
+							var span = choice.find('span.choiceText').first();
+							span.addClass('hidden');
+							choice.find('input.choiceInput').removeClass('hidden').val(span.html()).focus();
+							return false;
+						});
 						mcChoices.append(choice);
 						noChoices.hide();
 						return false;
