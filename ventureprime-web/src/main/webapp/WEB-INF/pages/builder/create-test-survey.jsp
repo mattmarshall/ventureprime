@@ -56,11 +56,21 @@ $(document).ready(function(){
 					// Multiple coice loaded
 					updateIndexes();
 					$(this).find('a.delete').click(deleteQuestion);
+					var noChoices = $(this).find('p.noMcChoices');
 					var mcChoices = $(this).find('ul.mcChoices');
 					var template = $(document.createElement('li')).load('/assets/ajax/survey-mc-choice.html');
+					template.addClass('mcChoice');
 					$(this).find('a.newMcChoice').click(function() {
 						var choice = template.clone();
+						choice.find('a.deleteChoice').click(function() {
+							choice.remove();
+							if (mcChoices.find('li.mcChoice').length == 0) {
+								noChoices.show();
+							}
+							return false;
+						});
 						mcChoices.append(choice);
+						noChoices.hide();
 						return false;
 					});
 				});
