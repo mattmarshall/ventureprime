@@ -17,6 +17,7 @@ $(document).ready(function(){
 	function updateIndexes() {
 		$('ol#tasks li').each(function() {
 			var index = $('ol#tasks li').index(this);
+			$(this).find('div.order').html((index + 1) + '.');
 			$(this).find('input.taskTitle').attr('name', 'taskTitle').attr('id', 'taskTitle' + index)
 			$(this).find('textarea.taskDescription').attr('name', 'taskDescription').attr('id', 'taskDescription' + index);
 		});
