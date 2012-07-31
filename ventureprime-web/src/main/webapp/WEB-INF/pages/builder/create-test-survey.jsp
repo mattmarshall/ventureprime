@@ -16,7 +16,7 @@ $(document).ready(function(){
 	
 	function updateIndexes() {
 		$('ol#questions li').each(function() {
-			var index = $('ol#questions li').index(this);
+			var index = $('ol#questions li.question').index(this);
 			$(this).find('div.order').html((index + 1) + '.');
 			//$(this).find('input.taskTitle').attr('name', 'taskTitle').attr('id', 'taskTitle' + index)
 			//$(this).find('textarea.taskDescription').attr('name', 'taskDescription').attr('id', 'taskDescription' + index);
@@ -26,11 +26,12 @@ $(document).ready(function(){
 	// Enable the add new task button
 	$('a#newQuestion').click(function() {
 		var li = $(document.createElement('li'));
+		li.addClass('question'); //for css selector issue
 		
 		function deleteQuestion() {
 			li.remove();
 			updateIndexes();
-			var taskCount = $('ol#questions li').length;
+			var taskCount = $('ol#questions li.question').length;
 			if (taskCount == 0) {
 				$('p#noTasks').show();
 			}
@@ -107,7 +108,7 @@ $(document).ready(function(){
   <c:when test="${(not empty test.surveys) && (not empty test.surveys[0].questions)}">
  		<ol id="questions">
     	<c:forEach var="question" varStatus="status" items="${test.surveys[0].questions}">
-    	<li>
+    	<li class="question">
 			<!-- Question -->
 			<div style="border-top: 1px solid gray; border-bottom: 1px solid gray; margin: 10px 0; padding: 10px;">
 				<div style="display:inline-block; vertical-align:top; padding: 0 10px">
