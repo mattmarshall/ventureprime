@@ -98,3 +98,9 @@ div#vp-header-right {
 .hidden {
 	display: none;
 }
+
+li.vacant {
+	width: 978px;
+	height: 98px;
+	background: red;
+}

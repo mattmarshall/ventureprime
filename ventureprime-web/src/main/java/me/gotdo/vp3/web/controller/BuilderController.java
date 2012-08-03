@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import me.gotdo.vp3.web.model.Survey;
+import me.gotdo.vp3.web.model.SurveyQuestion;
 import me.gotdo.vp3.web.model.Test;
 import me.gotdo.vp3.web.model.TestTask;
 import me.gotdo.vp3.web.model.VPUser;
@@ -131,6 +132,12 @@ public class BuilderController {
 	@RequestMapping(value = "/step/3", method = RequestMethod.GET)
 	public String buildStep(@ModelAttribute("test") Test test) {
 		return "builder/create-test-survey";
+	}
+	
+	@RequestMapping(value = "/survey/question", method = RequestMethod.POST)
+	public @ResponseBody SurveyQuestion addQuestion(@ModelAttribute("test") Test test,
+			@RequestBody SurveyQuestion question) {
+		return question;
 	}
 	
 	/*

@@ -3,64 +3,76 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../include-header-venture.jsp" />
-<h1>Create Tasks for ${test.testName}</h1>
+
+<h1 style="font-size:18px">Create Tasks for ${test.testName} [TEST NAME]</h1>
+
+<script>
+	$(function() {
+		$( "#sortable" ).sortable({'handle':'div.task-header','cursor':'crosshair','placeholder':'vacant'});
+	});
+</script>
 
 <script type="text/javascript">
 $(document).ready(function(){
 	
-	// Enable the delete button
-	$('a.delete').click(function(){
-		alert('You are deleting a task!');
+	// Make list sortable
+	$('ol#tasks').sortable({'handle': 'span.ui-icon'});	
+	$('ol#tasks').bind('DOMSubtreeModified', function() {
+		var count = $(this).find('li').length;
+		if (count > 0) {
+			$('div#no-tasks').hide();
+			$('button#next-step').removeClass('ui-state-disabled').attr('disabled', false);
+		} else {
+			$('div#no-tasks').show();
+			$('button#next-step').addClass('ui-state-disabled').attr('disabled', true);
+		}
+	});
+	
+	// Activate new task button
+	$('button#add-task').button({
+		icons: {
+			primary: "ui-icon-plusthick"
+		}
+	}).click(function() {
+		
+		// Prevent wreckless adding of tasks
+		var count = $('ol#tasks li').length;
+		if (count >= 5) {
+			alert("You cannot add any more tasks. Please delete some");
+			return false;
+		}
+		
+		var li = $(document.createElement('li'));
+		li.load('/assets/ajax/test-task-entry.html',  function() {		
+			var link = $(this).find('button.delete').button({
+				icons: {
+					primary: "ui-icon-trash"
+				}
+			}).click(function() {
+				li.remove();
+				return false;
+			});
+			$('ol#tasks').append(li);
+		});
+		return false;		
+	});
+	
+	// Activate previous button
+	$('button#prev-step').button({
+		icons: {
+			primary: "ui-icon-triangle-1-w"
+		}
+	}).click(function() {
 		return false;
 	});
 	
-	function updateIndexes() {
-		$('ol#tasks li').each(function() {
-			var index = $('ol#tasks li').index(this);
-			$(this).find('div.order').html((index + 1) + '.');
-			$(this).find('input.taskTitle').attr('name', 'taskTitle').attr('id', 'taskTitle' + index)
-			$(this).find('textarea.taskDescription').attr('name', 'taskDescription').attr('id', 'taskDescription' + index);
-		});
-	}
-
-	// Enable the add new task button
-	$('a#newTask').click(function() {
-		var li = $(document.createElement('li'));
-		li.load('/assets/ajax/test-task-entry.html',  function() {
-			
-			var link = $(this).find('a.delete').click(function() {
-				li.remove();
-				updateIndexes();
-				var taskCount = $('ol#tasks li').length;
-				if (taskCount == 0) {
-					$('p#noTasks').show();
-				}
-
-				return false;
-			});
-			
-			$('ol#tasks').append(li);
-			updateIndexes();
-			
-		});
-
-		// Remove notice
-		$('p#noTasks').hide();
-
-		/*
-		$.ajax({
-			type: "POST",
-			url: './2/addTask',
-			dataType: 'json',
-			contentType: "application/json",
-			async: false,
-			data: '{ "description" : "My Description", "title" : "My Title" }',
-			success: function (data, textStatus, jqXHR) {
-				// alert(data.title);
-			}
-		})
-		*/
-		
+	// Activate next button
+	$('button#next-step').button({
+		disabled: true,
+		icons: {
+			secondary: "ui-icon-triangle-1-e"
+		}
+	}).click(function() {
 		return false;
 	});
 });
@@ -68,6 +80,7 @@ $(document).ready(function(){
 
 <form name="testTask" action="" method="post">
 
+<div id="test-tasks-contain" style="margin-top:10px">
 <c:choose>
   <c:when test="${not empty test.tasks}">
  		<ol id="tasks">
@@ -83,20 +96,25 @@ $(document).ready(function(){
   	</c:forEach>
   		</ol>
   </c:when>
-  <c:otherwise>
-  	<p id="noTasks">You have no tasks attached to this test, better create some.</p>
+  <c:otherwise>  	
+  	<div id="no-tasks" class="ui-widget">
+		<div class="ui-state-highlight ui-corner-all"> 
+			<p style="padding:10px;font-size:12pt"><span class="ui-icon ui-icon-info" style="float: left; margin-right:10px;"></span>
+			You have no tasks attached to this test, better create some.</p>
+		</div>
+	</div>  	
   	<ol id="tasks"></ol>
   </c:otherwise>
 </c:choose>
-
-<!-- NEW TASK -->
-<div style="border-top: 1px solid gray; border-bottom: 1px solid gray; margin: 10px 0; padding: 10px;">
-	<div style="text-align:center"><a id="newTask" href="newTask">+ NEW TASK</a></div>
 </div>
 
+<div style="margin-top:10px">
+<span style="float:right">
+	<button id="prev-step">Back</button>
+	<button id="next-step">Next</button>
+</span>
+<button id="add-task">Add Task</button>
+</div>
 
-<p>
-	<input type="submit" name="submit" value="Next" />
-</p>
 </form>
 <jsp:include page="../include-footer-venture.jsp" />

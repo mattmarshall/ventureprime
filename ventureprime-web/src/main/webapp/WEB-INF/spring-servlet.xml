@@ -15,7 +15,7 @@
     <context:component-scan base-package="me.gotdo.vp3" />
 	
 	<!-- Static Resources -->
-	<mvc:resources location="/assets/" mapping="/assets/**"/>
+	<mvc:resources location="/assets/" mapping="/assets/**" cache-period="0" />
 	
 	<!-- Use annotations -->
 	<mvc:annotation-driven />
