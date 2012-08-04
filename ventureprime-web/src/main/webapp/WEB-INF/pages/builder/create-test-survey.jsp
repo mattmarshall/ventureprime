@@ -8,7 +8,7 @@
 $(document).ready(function(){
 
 	// Make list sortable
-	$('ol#questions').sortable({'handle': 'div.task-header', 'placeholer': 'vacant', 'cursor': 'pointer'});	
+	$('ol#questions').sortable({'handle': 'div.question-header', 'cursor': 'pointer'});	
 	$('ol#questions').bind('DOMSubtreeModified', function() {
 		var count = $(this).find('li').length;
 		if (count > 0) {
@@ -18,12 +18,6 @@ $(document).ready(function(){
 			$('div#no-questions').show();
 			$('button#next-step').button('disable');
 		}
-	});
-	
-	// Enable the delete button
-	$('a.delete').click(function(){
-		alert('You are deleting a question!');
-		return false;
 	});
 
 	// Activate new task button
@@ -48,27 +42,44 @@ $(document).ready(function(){
 		
 		li.load('/assets/ajax/survey-question-entry.html',  function() {
 			
-			var link = $(this).find('a.delete').click(function() {
-				li.remove();
-				updateIndexes();
-				var taskCount = $('ol#questions li').length;
-				if (taskCount == 0) {
-					$('p#noTasks').show();
+			// Activate delete button
+			$(this).find('button.delete').button({
+				icons: {
+					primary: "ui-icon-trash"
 				}
-
+			}).click(function() {
+				li.remove();
 				return false;
 			});
 			
+			// Multiple choice selected
 			$(this).find('a.multipleChoice').click(function() {
-				li.load('/assets/ajax/survey-question-multiple-choice.html', function() {
-					// Multiple coice loaded
-					updateIndexes();
+				li.find('div.question-body').load('/assets/ajax/survey-question-multiple-choice.html', function() {
+					
+					// Multiple choice loaded
 					$(this).find('a.delete').click(deleteQuestion);
+					
+					// Set subtree listener
+					$(this).find('ul.mcChoices').bind('DOMSubtreeModified', function() {
+						var count = $(this).find('li').length;
+						if (count > 0) {
+							$('div.no-mc-choices').hide();
+						} else {
+							$('div.no-mc-choices').show();
+						}
+					});
+					
 					var noChoices = $(this).find('p.noMcChoices');
 					var mcChoices = $(this).find('ul.mcChoices');
 					var template = $(document.createElement('li')).load('/assets/ajax/survey-mc-choice.html');
 					template.addClass('mcChoice');
-					$(this).find('a.newMcChoice').click(function() {
+					
+					// Activate new multiple choice field
+					$(this).find('button.add-mc-choice').button({
+						icons: {
+							primary: "ui-icon-plusthick"
+						}
+					}).click(function(){
 						var choice = template.clone();
 						choice.find('a.deleteChoice').click(function() {
 							choice.remove();
