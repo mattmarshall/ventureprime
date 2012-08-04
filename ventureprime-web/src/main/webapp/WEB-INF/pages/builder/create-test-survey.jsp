@@ -3,28 +3,36 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../include-header-venture.jsp" />
-<h1>Create Feedback Survey</h1>
 
 <script type="text/javascript">
 $(document).ready(function(){
+
+	// Make list sortable
+	$('ol#questions').sortable({'handle': 'div.task-header', 'placeholer': 'vacant', 'cursor': 'pointer'});	
+	$('ol#questions').bind('DOMSubtreeModified', function() {
+		var count = $(this).find('li').length;
+		if (count > 0) {
+			$('div#no-questions').hide();
+			$('button#next-step').button('enable');
+		} else {
+			$('div#no-questions').show();
+			$('button#next-step').button('disable');
+		}
+	});
 	
 	// Enable the delete button
 	$('a.delete').click(function(){
 		alert('You are deleting a question!');
 		return false;
 	});
-	
-	function updateIndexes() {
-		$('ol#questions li').each(function() {
-			var index = $('ol#questions li.question').index(this);
-			$(this).find('div.order').html((index + 1) + '.');
-			//$(this).find('input.taskTitle').attr('name', 'taskTitle').attr('id', 'taskTitle' + index)
-			//$(this).find('textarea.taskDescription').attr('name', 'taskDescription').attr('id', 'taskDescription' + index);
-		});
-	}
 
-	// Enable the add new task button
-	$('a#newQuestion').click(function() {
+	// Activate new task button
+	$('button#add-question').button({
+		icons: {
+			primary: "ui-icon-plusthick"
+		}
+	}).click(function() {
+		// Create new question
 		var li = $(document.createElement('li'));
 		li.addClass('question'); //for css selector issue
 		
@@ -122,9 +130,47 @@ $(document).ready(function(){
 		
 		return false;
 	});
+	
+	// Activate previous button
+	$('button#prev-step').button({
+		icons: {
+			primary: "ui-icon-triangle-1-w"
+		}
+	}).click(function() {
+		window.location.href = '/v/builder/step/2';
+		return false;
+	});
+	
+	// Activate next button
+	$('button#next-step').button({
+		disabled: true,
+		icons: {
+			secondary: "ui-icon-triangle-1-e"
+		}
+	}).click(function() {
+		return $('form#test-task-form').submit();
+	});
+	
+	function updateIndexes() {
+		$('ol#questions li').each(function() {
+			var index = $('ol#questions li.question').index(this);
+			$(this).find('div.order').html((index + 1) + '.');
+			//$(this).find('input.taskTitle').attr('name', 'taskTitle').attr('id', 'taskTitle' + index)
+			//$(this).find('textarea.taskDescription').attr('name', 'taskDescription').attr('id', 'taskDescription' + index);
+		});
+	}
+
+	// Enable the add new task button
+	$('a#newQuestion').click(function() {
+		alert('Click');
+		return false;
+	});
 });
 </script>
 
+<h1 style="font-size:18px">Create Feedback Survey</h1>
+
+<div id="test-survey-contain" style="margin-top:10px">
 <form name="testSurvey" action="" method="post">
 <c:choose>
   <c:when test="${(not empty test.surveys) && (not empty test.surveys[0].questions)}">
@@ -151,18 +197,24 @@ $(document).ready(function(){
   		</ol>
   </c:when>
   <c:otherwise>
-  	<p id="noQuestions">You have no questions in this test's survey, add some below.</p>
+  	<div id="no-questions" class="ui-widget">
+		<div class="ui-state-highlight ui-corner-all"> 
+			<p style="padding:10px;font-size:12pt"><span class="ui-icon ui-icon-info" style="float: left; margin-right:10px;"></span>
+			You have no questions in this survey, better create some.</p>
+		</div>
+	</div>  	
   	<ol id="questions"></ol>
   </c:otherwise>
 </c:choose>
 </form>
-
-<!-- NEW ITEM -->
-<div style="border-top: 1px solid gray; border-bottom: 1px solid gray; margin: 10px 0; padding: 10px;">
-	<div style="text-align:center"><a id="newQuestion" href="newItem">+ NEW ITEM</a></div>
 </div>
 
-<p>
-	<a href="/v/builder/step/${nextStep}">Next</a>
-</p>
+<div style="margin-top:10px">
+<span style="float:right">
+	<button id="prev-step">Back</button>
+	<button id="next-step">Next</button>
+</span>
+<button id="add-question">Add Question</button>
+</div>
+
 <jsp:include page="../include-footer-venture.jsp" />

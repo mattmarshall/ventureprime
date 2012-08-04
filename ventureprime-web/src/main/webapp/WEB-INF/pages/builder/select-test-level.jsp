@@ -3,8 +3,56 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../include-header-venture.jsp" />
-<h1>Select Test Level (Round 2)</h1>
-<div id="accordion">
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		// Close dialog
+		var closeDialog = $('<div></div>')
+		.html('Would you really like to cancel?')
+		.dialog({
+			autoOpen: false,
+			title: 'Cancel Test Builder?',
+			modal: true,
+			draggable: false,
+			resizable: false,
+			buttons: {
+				No: function() {
+					$(this).dialog('close');
+				},
+				'Yes': function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+		
+		$('#accordion').accordion();
+		
+		// Activate cancel button
+		$('button#cancel').button({
+			icons: {
+				primary: 'ui-icon-closethick'
+			}
+		}).click(function() {
+			closeDialog.dialog('open');
+			return false;
+		});
+		
+		// Activate next button
+		$('button#next-step').button({
+			icons: {
+				secondary: 'ui-icon-triangle-1-e'
+			}
+		}).click(function() {
+			return $('form#test-level-form').submit();
+		});
+		
+	});		
+</script>
+
+<h1 style="font-size:18px">Select Test Level (Round 2)</h1>
+
+<div id="accordion" style="margin-top:10px">
 	<c:forEach var="level" items="${testLevels}">
 	<h3>
 		<a href="#"><c:out value="${level.friendlyName}" /></a>
@@ -20,24 +68,17 @@
 		</div>
 	</div>
 	</c:forEach>
-	
-	<script type="text/javascript">
-		$(document).ready(function() {
-			
-			$('#accordion').accordion();
-			
-			/*
-			$('.level').click(function() {
-				$('#testLevel').val($(this).attr('id'));
-				$('.selected').removeClass('selected');
-				$(this).addClass('selected');
-			});
-			*/
-		});
-	</script>
 </div>
-<form action="" method="post">
+
+<form id="test-level-form" action="" method="post">
 	<input type="hidden" name="testLevel" id="testLevel" value="" />
-	<input type="submit" name="submit" value="Submit" />
+	<div style="margin-top:10px">
+		<span style="float:right">
+			<button id="cancel">Cancel</button>
+			<button id="next-step">Next</button>
+		</span>
+		<div style="height:0px;clear:right">&nbsp;</div>
+	</div>
 </form>
+
 <jsp:include page="../include-footer-venture.jsp" />

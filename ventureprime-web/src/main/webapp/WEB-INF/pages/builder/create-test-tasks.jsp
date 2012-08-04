@@ -4,27 +4,19 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../include-header-venture.jsp" />
 
-<h1 style="font-size:18px">Create Tasks for ${test.testName} [TEST NAME]</h1>
-
-<script>
-	$(function() {
-		$( "#sortable" ).sortable({'handle':'div.task-header','cursor':'crosshair','placeholder':'vacant'});
-	});
-</script>
-
 <script type="text/javascript">
 $(document).ready(function(){
 	
 	// Make list sortable
-	$('ol#tasks').sortable({'handle': 'span.ui-icon'});	
+	$('ol#tasks').sortable({'handle': 'div.task-header', 'placeholer': 'vacant', 'cursor': 'pointer'});	
 	$('ol#tasks').bind('DOMSubtreeModified', function() {
 		var count = $(this).find('li').length;
 		if (count > 0) {
 			$('div#no-tasks').hide();
-			$('button#next-step').removeClass('ui-state-disabled').attr('disabled', false);
+			$('button#next-step').button('enable');
 		} else {
 			$('div#no-tasks').show();
-			$('button#next-step').addClass('ui-state-disabled').attr('disabled', true);
+			$('button#next-step').button('disable');
 		}
 	});
 	
@@ -63,6 +55,7 @@ $(document).ready(function(){
 			primary: "ui-icon-triangle-1-w"
 		}
 	}).click(function() {
+		window.location.href = '/v/builder/step/1'
 		return false;
 	});
 	
@@ -73,12 +66,14 @@ $(document).ready(function(){
 			secondary: "ui-icon-triangle-1-e"
 		}
 	}).click(function() {
-		return false;
+		return $('form#test-task-form').submit();
 	});
 });
 </script>
 
-<form name="testTask" action="" method="post">
+<h1 style="font-size:18px">Create Tasks for ${test.testName} [TEST NAME]</h1>
+
+<form id="test-task-form" action="" method="post">
 
 <div id="test-tasks-contain" style="margin-top:10px">
 <c:choose>

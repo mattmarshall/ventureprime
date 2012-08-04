@@ -99,7 +99,7 @@ div#vp-header-right {
 	display: none;
 }
 
-li.vacant {
+.vacant {
 	width: 978px;
 	height: 98px;
 	background: red;
