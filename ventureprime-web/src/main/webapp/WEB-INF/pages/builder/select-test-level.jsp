@@ -26,7 +26,11 @@
 			}
 		});
 		
-		$('#accordion').accordion();
+		$('#accordion').accordion({
+			change: function(event, ui) {
+				$('input#testLevel').val(ui.newHeader.find('a').data('id'));
+			}
+		});
 		
 		// Activate cancel button
 		$('button#cancel').button({
@@ -54,8 +58,8 @@
 
 <div id="accordion" style="margin-top:10px">
 	<c:forEach var="level" items="${testLevels}">
-	<h3>
-		<a href="#"><c:out value="${level.friendlyName}" /></a>
+	<h3 class="test-level-header">
+		<a href="#" data-id="${level.id}"><c:out value="${level.friendlyName}" /></a>
 	</h3>
 	<div>
 		<span style="float:right"><a href="#" style="font-size:8pt">Explanation of Pricing</a></span>
