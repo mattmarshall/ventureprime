@@ -66,7 +66,12 @@ public class BuilderController {
 	}
 	
 	@RequestMapping(value = "/step/1", method = RequestMethod.POST)
-	public String submitTestLevel(@ModelAttribute("test") Test test, final HttpServletRequest request, final Principal principal) throws Exception {
+	public String submitTestLevel(final HttpServletRequest request, final Principal principal) throws Exception {
+		
+		Test test = (Test)request.getSession().getAttribute("test");
+		if (test == null) {
+			return "redirect:/v/builder";
+		}
 		
 		// Get the selected test level
 		String testLevelId = request.getParameter("testLevel");
@@ -91,12 +96,25 @@ public class BuilderController {
 	 * Step 2
 	 */
 	@RequestMapping(value = "/step/2", method = RequestMethod.GET)
-	public String showTaskCreator(@ModelAttribute("test") Test test) {
+	public String showTaskCreator(final HttpServletRequest request) {
+		
+		Test test = (Test)request.getSession().getAttribute("test");
+		if (test == null) {
+			return "redirect:/v/builder";
+		}
+		
+		
 		return "builder/create-test-tasks";
 	}
 	
 	@RequestMapping(value = "/step/2", method = RequestMethod.POST)
-	public String submitTestTasks(@ModelAttribute("test") Test test, HttpServletRequest request) throws Exception {
+	public String submitTestTasks(HttpServletRequest request) throws Exception {
+		
+		Test test = (Test)request.getSession().getAttribute("test");
+		if (test == null) {
+			return "redirect:/v/builder";
+		}
+		
 		
 		// Check for POST data
 		Map<String, String[]> map = request.getParameterMap();
@@ -138,7 +156,14 @@ public class BuilderController {
 	 */
 	
 	@RequestMapping(value = "/step/3", method = RequestMethod.GET)
-	public String buildStep(@ModelAttribute("test") Test test) {
+	public String buildStep(final HttpServletRequest request) {
+		
+		Test test = (Test)request.getSession().getAttribute("test");
+		if (test == null) {
+			return "redirect:/v/builder";
+		}
+		
+		
 		return "builder/create-test-survey";
 	}
 	
