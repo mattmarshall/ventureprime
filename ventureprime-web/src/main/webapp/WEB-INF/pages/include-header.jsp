@@ -10,6 +10,7 @@
         <link rel="stylesheet" type="text/css" href="/assets/css/style.css" />
     	<script type="text/javascript" src="/assets/js/jquery-1.7.2.min.js"></script>
     	<script type="text/javascript" src="/assets/js/jquery-ui-1.8.22.custom.min.js"></script>
+    	<script type="text/javascript" src="/assets/js/jquery.editable-1.3.3.min.js"></script>
         <!--[if gte IE 9]>
             <style type="text/css">
                 .gradient {

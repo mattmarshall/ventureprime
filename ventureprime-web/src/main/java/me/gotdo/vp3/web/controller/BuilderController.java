@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
@@ -47,12 +48,19 @@ public class BuilderController {
 		return "venture-test-builder-home";
 	}
 	
+	@RequestMapping(method = RequestMethod.POST)
+	public String handlePost(ModelMap model, @RequestParam("test-name") String testName) {
+		Test test = new Test();
+		test.setTestName(testName);
+		model.put("test", test);
+		return "redirect:/v/builder/step/1";
+	}
+	
 	/*
 	 * Step 1
 	 */	
 	@RequestMapping(value = "/step/1", method = RequestMethod.GET)
 	public String showTestLevels(ModelMap model) {
-		model.put("test", new Test());
 		model.put("testLevels", testLevelRepo.findAll());
 		return "builder/select-test-level";
 	}

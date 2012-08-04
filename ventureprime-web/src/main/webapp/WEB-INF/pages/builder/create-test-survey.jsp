@@ -20,6 +20,9 @@ $(document).ready(function(){
 		}
 	});
 
+	// Make test name editable
+	$('span#test-name').editable();
+
 	// Activate new task button
 	$('button#add-question').button({
 		icons: {
@@ -42,6 +45,9 @@ $(document).ready(function(){
 		
 		li.load('/assets/ajax/survey-question-entry.html',  function() {
 			
+			// Make the question description editable
+			$(this).find('span.question-description').editable();
+			
 			// Activate delete button
 			$(this).find('button.delete').button({
 				icons: {
@@ -59,6 +65,11 @@ $(document).ready(function(){
 					// Multiple choice loaded
 					$(this).find('a.delete').click(deleteQuestion);
 					
+					// Make choices list sortable
+					$(this).find('ul.mcChoices').sortable({
+						handle: 'div.mc-choice'
+					});
+					
 					// Set subtree listener
 					$(this).find('ul.mcChoices').bind('DOMSubtreeModified', function() {
 						var count = $(this).find('li').length;
@@ -72,7 +83,9 @@ $(document).ready(function(){
 					var noChoices = $(this).find('p.noMcChoices');
 					var mcChoices = $(this).find('ul.mcChoices');
 					var template = $(document.createElement('li')).load('/assets/ajax/survey-mc-choice.html');
-					template.addClass('mcChoice');
+					
+					// Add CSS classes to li element
+					template.addClass('mcChoice').css('display','list-item').css('list-style-type','disc').css('list-style-position','inside');
 					
 					// Activate new multiple choice field
 					$(this).find('button.add-mc-choice').button({
@@ -80,14 +93,29 @@ $(document).ready(function(){
 							primary: "ui-icon-plusthick"
 						}
 					}).click(function(){
+						
+						// Prevent adding too many choices
+						var count = mcChoices.find('li').length;
+						if (count >= 5) {
+							alert('You cannot create more than 5 choices for this type of question. Please delete a choice.');
+							return false;
+						}
+						
 						var choice = template.clone();
-						choice.find('a.deleteChoice').click(function() {
+						choice.find('button.delete-choice').button({
+							icons: {
+								primary: 'ui-icon-trash'
+							},
+							text: false
+						}).click(function(){
 							choice.remove();
 							if (mcChoices.find('li.mcChoice').length == 0) {
 								noChoices.show();
 							}
 							return false;
 						});
+						
+						/*
 						choice.find('input.choiceInput').blur(function() {
 							choice.find('span.choiceText').first().html($(this).val()).removeClass('hidden');
 							$(this).addClass('hidden');
@@ -100,6 +128,11 @@ $(document).ready(function(){
 							choice.find('input.choiceInput').removeClass('hidden').val(span.html()).focus();
 							return false;
 						});
+						*/
+						
+						// Edit in place multiple choice field
+						choice.find('span.mc-choice').editable();
+						
 						mcChoices.append(choice);
 						noChoices.hide();
 						return false;
@@ -179,7 +212,7 @@ $(document).ready(function(){
 });
 </script>
 
-<h1 style="font-size:18px">Create Feedback Survey</h1>
+<h1 style="font-size:18px">Create Feedback Survey for <span id="test-name">${test.testName}</span></h1>
 
 <div id="test-survey-contain" style="margin-top:10px">
 <form name="testSurvey" action="" method="post">

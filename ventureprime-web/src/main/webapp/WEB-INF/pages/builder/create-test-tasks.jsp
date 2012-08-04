@@ -20,6 +20,9 @@ $(document).ready(function(){
 		}
 	});
 	
+	// Edit in place
+	$('span#test-name').editable();
+	
 	// Activate new task button
 	$('button#add-task').button({
 		icons: {
@@ -35,7 +38,10 @@ $(document).ready(function(){
 		}
 		
 		var li = $(document.createElement('li'));
-		li.load('/assets/ajax/test-task-entry.html',  function() {		
+		li.load('/assets/ajax/test-task-entry.html',  function() {
+
+			$(this).find('span.task-title').editable();
+
 			var link = $(this).find('button.delete').button({
 				icons: {
 					primary: "ui-icon-trash"
@@ -71,7 +77,7 @@ $(document).ready(function(){
 });
 </script>
 
-<h1 style="font-size:18px">Create Tasks for ${test.testName} [TEST NAME]</h1>
+<h1 style="font-size:18px">Create Tasks for <span id="test-name">${test.testName}</span></h1>
 
 <form id="test-task-form" action="" method="post">
 
