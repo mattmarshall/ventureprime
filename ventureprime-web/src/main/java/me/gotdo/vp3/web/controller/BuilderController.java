@@ -66,7 +66,9 @@ public class BuilderController {
 	}
 	
 	@RequestMapping(value = "/step/1", method = RequestMethod.POST)
-	public String submitTestLevel(final HttpServletRequest request, final Principal principal) throws Exception {
+	public String submitTestLevel(final HttpServletRequest request,
+			final @RequestParam("testLevel") String testLevelId,
+			final Principal principal) throws Exception {
 		
 		Test test = (Test)request.getSession().getAttribute("test");
 		if (test == null) {
@@ -74,9 +76,8 @@ public class BuilderController {
 		}
 		
 		// Get the selected test level
-		String testLevelId = request.getParameter("testLevel");
 		if (testLevelId == null) {
-			throw new Exception();
+			throw new Exception("Test level id not specified");
 		}
 		
 		if (principal == null) {
@@ -115,15 +116,14 @@ public class BuilderController {
 			return "redirect:/v/builder";
 		}
 		
-		
 		// Check for POST data
 		Map<String, String[]> map = request.getParameterMap();
-		if (!(map.containsKey("taskTitle") && map.containsKey("taskDescription"))) {
+		if (!(map.containsKey("task-title[]") && map.containsKey("task-description[]"))) {
 			throw new Exception("POST data was not submitted");
 		}
 		
-		String[] titles = map.get("taskTitle");
-		String[] descriptions = map.get("taskDescription");
+		String[] titles = map.get("task-title[]");
+		String[] descriptions = map.get("task-description[]");
 		
 		// Ugly hackery validation (will suffice for now
 		if ((titles == null) || (descriptions == null) || (titles.length != descriptions.length)) {

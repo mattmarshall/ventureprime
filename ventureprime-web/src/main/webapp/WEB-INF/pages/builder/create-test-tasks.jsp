@@ -3,13 +3,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../include-header-venture.jsp" />
-
+<style>
+.hidden { display: none }
+</style>
 <script type="text/javascript">
 $(document).ready(function(){
-	
+
+	// Validate the form
+	$('form#test-task-form').validate();
+
 	// Make list sortable
 	$('ol#tasks').sortable({'handle': 'div.task-header', 'placeholer': 'vacant', 'cursor': 'pointer'});	
 	$('ol#tasks').bind('DOMSubtreeModified', function() {
+		
+		// Show/hide no tasks button
 		var count = $(this).find('li').length;
 		if (count > 0) {
 			$('div#no-tasks').hide();
@@ -18,10 +25,15 @@ $(document).ready(function(){
 			$('div#no-tasks').show();
 			$('button#next-step').button('disable');
 		}
+		
+		// Re-validate field?
+		$('form#test-task-form').validate();		
 	});
 	
-	// Edit in place
-	$('span#test-name').editable();
+	// Mark all existing tasks as "taskEdit()"
+	$('ol#tasks li').taskEdit({
+		doLoad: false
+	});
 	
 	// Activate new task button
 	$('button#add-task').button({
@@ -37,22 +49,12 @@ $(document).ready(function(){
 			return false;
 		}
 		
+		// Create list element
 		var li = $(document.createElement('li'));
-		li.load('/assets/ajax/test-task-entry.html',  function() {
+		li.taskEdit();
+		$('ol#tasks').append(li);
 
-			$(this).find('span.task-title').editable();
-
-			var link = $(this).find('button.delete').button({
-				icons: {
-					primary: "ui-icon-trash"
-				}
-			}).click(function() {
-				li.remove();
-				return false;
-			});
-			$('ol#tasks').append(li);
-		});
-		return false;		
+		return false;
 	});
 	
 	// Activate previous button
@@ -86,15 +88,21 @@ $(document).ready(function(){
   <c:when test="${not empty test.tasks}">
  		<ol id="tasks">
     	<c:forEach var="task" varStatus="status" items="${test.tasks}">
-		<!-- TASK -->
-		<li id="task${status.index}">
-		<div style="border-top: 1px solid gray; border-bottom: 1px solid gray; margin: 10px 0; padding: 10px;">
-			<div style="float:right"><a href="#">Edit</a>&nbsp;&nbsp;<a class="delete" href="deleteTask/${status.index}">Delete</a></div>
-			<h2>${task.title}</h2>
-			<p style="margin: 10px 0; clear:right">${task.description}</p>
+    	<li>
+		<div style="width: 975px;margin-top:5px">
+			<div class="ui-state-default task-header" style="height:30px">
+				<span class="ui-icon ui-icon-grip-dotted-vertical" style="display:inline-block;margin-top:6px;cursor:pointer"></span>
+				<span style="float:right"><button class="delete" style="font-size:8pt;margin:2px;margin-right:5px">Delete</button></span>
+				<span class="task-header-edit">
+					<span class="task-title" style="font-size:12pt;padding:2px">${task.title}</span>
+				</span>
+			</div>
+			<div style="clear:right;border-color:gainsboro;border-style:solid;border-width:0 1px 1px 1px;background-color:white;min-height:65px" class="ui-corner-bottom">
+				<textarea name="task-description[]" class="task-description ui-corner-top ui-corner-all required" style="border:1px solid gainsboro;resize:none;width:957px;margin:5px;height:48px" placeholder="Give a longer description">${task.description}</textarea>
+			</div>
 		</div>
-		</li>
-  	</c:forEach>
+		</li>		
+		</c:forEach>
   		</ol>
   </c:when>
   <c:otherwise>  	

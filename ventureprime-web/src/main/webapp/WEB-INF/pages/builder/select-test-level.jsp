@@ -54,7 +54,7 @@
 	});		
 </script>
 
-<h1 style="font-size:18px">Select Test Level (Round 2)</h1>
+<h1 style="font-size:18px">Select Test Level for <span id="test-name">${test.testName}</span></h1>
 
 <div id="accordion" style="margin-top:10px">
 	<c:forEach var="level" items="${testLevels}">

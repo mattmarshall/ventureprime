@@ -1,195 +1,274 @@
 (function($) {
-
-	/**
-	 * Runs the test task builder
-	 * page
-	 */
-	$.fn.taskBuilder = function(options) {
-		
-		/*
-		 * Set default options
-		 */
-		options = options || {
-			
-		};
-		
-		/*
-		 * Update the index when a question
-		 * is added or deleted to the list
-		 */
-		function updateIndexes() {
-			this.find('ol#tasks li').each(function() {
-				var index = $('ol#tasks li').index(this);
-				$(this).find('div.order').html((index + 1) + '.');
-				$(this).find('input.taskTitle').attr('name', 'taskTitle').attr('id', 'taskTitle' + index)
-				$(this).find('textarea.taskDescription').attr('name', 'taskDescription').attr('id', 'taskDescription' + index);
-			});
-		}
-		
-		/*
-		 * Enable the delete button
-		 */
-		this.find('a.delete').click(function(){
-			alert('You are deleting a task!');
-			return false;
-		});
-
-		/*
-		 * Enable the new task button
-		 */
-		this.find('a#newTask').click(function() {
-			var li = $(document.createElement('li'));
-			li.load('/assets/ajax/test-task-entry.html',  function() {				
-				var link = $(this).find('a.delete').click(function() {
-					li.remove();
-					updateIndexes();
-					var taskCount = this.find('ol#tasks li').length;
-					if (taskCount == 0) {
-						this.find('p#noTasks').show();
-					}
-					return false;
-				});				
-				this.find('ol#tasks').append(li);
-				updateIndexes();				
-			});
-
-			// Remove notice
-			this.find('p#noTasks').hide();
-
-			return false;
-		});
-
-		return true;
-	};
 	
 	/**
-	 * Runs the survey question
-	 * builder page
+	 * Creates a simple editor
 	 */
-	$.fn.surveyBuilder = function(options) {
+	$.fn.highlight = function(options) {
 		
-		/*
-		 * Update the index when a question
-		 * is added or deleted to the list
-		 */
-		function updateIndexes() {
-			this.find('ol#questions li').each(function() {
-				var index = this.find('ol#questions li.question').index(this);
-				$(this).find('div.order').html((index + 1) + '.');
-			});
+		var defaults = {
+				
 		}
 		
-		/*
-		 * Enable the delete button
+		/**
+		 * Create settings object
 		 */
-		this.find('a.delete').click(function(){
-			alert('You are deleting a question!');
-			return false;
-		});
+		options = $.extend({}, defaults, options);
+		
+		return this.each(function() {
+			var $this = $(this);
+			$this.mouseenter(function(){
+				$this.addClass('ui-state-highlight');
+			});
+			$this.mouseleave(function(){
+				$this.removeClass('ui-state-highlight');
+			});
+		});		
+	}
 
-		/*
-		 * Enable the new task button
+	/**
+	 * Creates a simple editor
+	 */
+	$.fn.simpleEdit = function(options) {
+		
+		var defaults = {
+			inputType: 'text',
+			inputName: 'default'
+		}
+		
+		/**
+		 * Create settings object
 		 */
-		this.find('a#newQuestion').click(function() {
-			var li = $(document.createElement('li'));
-			li.addClass('question'); //for css selector issue
+		options = $.extend({}, defaults, options);
+		
+		return this.each(function() {
+			var $this = $(this);
+			var parent = $this.parent();
+			var input = $(document.createElement('input'));
+
+			input.attr('type', options.inputType).attr('name', options.inputName);
+			input.hide();
 			
-			function deleteQuestion() {
-				li.remove();
-				updateIndexes();
-				var taskCount = this.find('ol#questions li.question').length;
-				if (taskCount == 0) {
-					this.find('p#noTasks').show();
-				}
+			// Click
+			$this.click(function() {
+				input.val($this.text());
+				input.show();
+				$this.hide();
+				input.focus();
 				return false;
-			}
+			});
 			
-			li.load('/assets/ajax/survey-question-entry.html',  function() {
+			// Blur
+			input.blur(function() {
+				$this.text(input.val());
+				input.hide();
+				$this.show();
+				return false;
+			});
+
+			parent.append(input);
+		});		
+	}
+
+	/**
+	 * Runs the task editor on
+	 * an li element
+	 */
+	$.fn.taskEdit = function(options) {
+		
+		var defaults = {
+				ajax: '/assets/ajax/test-task-entry.html',
+				doLoad: true
+		}
+		
+		/**
+		 * Create settings object
+		 */
+		options = $.extend({}, defaults, options);
+		
+		return this.each(function() {
+			var $this = $(this);
+			$this.css('display','list-item').css('list-style-type','decimal').css('list-style-position','inside');
+			
+			function configureTask() {
+				// Make task title editable in place
+				$this.find('span.task-title').highlight().simpleEdit({
+					inputName: 'task-title[]'
+				});
 				
-				var link = $(this).find('a.delete').click(function() {
-					li.remove();
-					updateIndexes();
-					var taskCount = this.find('ol#questions li').length;
-					if (taskCount == 0) {
-						this.find('p#noTasks').show();
+				// Activate delete button
+				var link = $this.find('button.delete').button({
+					icons: {
+						primary: "ui-icon-trash"
 					}
+				}).click(function() {
+					$this.remove();
+					return false;
+				});
+			}
+
+			if (options.doLoad) {
+				$this.load(options.ajax,  configureTask);
+			} else {
+				configureTask();
+			}
+		});
+	}
+
+	/**
+	 * Runs the unsupported editor on
+	 * an element
+	 */
+	$.fn.unsupported = function(options) {
+		var defaults = {
+				ajax: '/assets/ajax/survey-question-entry.html',
+		}
+		
+		/**
+		 * Create settings object
+		 */
+		options = $.extend({}, defaults, options);
+		
+		return this.each(function() {
+			$(this).load('/assets/ajax/survey-question-unsupported.html');
+		});
+	}
+
+	/**
+	 * Runs the multiple choice editor on
+	 * an element
+	 */
+	$.fn.multipleChoice = function(options) {
+		var defaults = {
+				template: '/assets/ajax/survey-question-multiple-choice.html',
+				choiceTemplate: '/assets/ajax/survey-mc-choice.html'
+		}
+		
+		/**
+		 * Create settings object
+		 */
+		options = $.extend({}, defaults, options);
+		
+		return this.each(function() {
+			$(this).load(options.template, function() {
+				
+				// Make choices list sortable
+				$(this).find('ol.mcChoices').sortable({
+					handle: 'div.mc-choice'
+				});
+				
+				// Set subtree listener
+				$(this).find('ol.mcChoices').bind('DOMSubtreeModified', function() {
+					var count = $(this).find('li').length;
+					if (count > 0) {
+						$('div.no-mc-choices').hide();
+					} else {
+						$('div.no-mc-choices').show();
+					}
+				});
+
+				// Get elements
+				var noChoices = $(this).find('p.noMcChoices');
+				var mcChoices = $(this).find('ol.mcChoices');
+				var template = $(document.createElement('li')).load(options.choiceTemplate);
+				
+				// Add CSS classes to li element
+				template.addClass('mcChoice').css('display','list-item').css('list-style-type','lower-alpha').css('list-style-position','inside');
+				
+				// Activate new multiple choice field
+				$(this).find('button.add-mc-choice').button({
+					icons: {
+						primary: "ui-icon-plusthick"
+					}
+				}).click(function(){
+					
+					// Prevent adding too many choices
+					var count = mcChoices.find('li').length;
+					if (count >= 5) {
+						alert('You cannot create more than 5 choices for this type of question. Please delete a choice.');
+						return false;
+					}
+					
+					// Clone the choice template
+					var choice = template.clone();
+					choice.find('button.delete-choice').button({
+						icons: {
+							primary: 'ui-icon-trash'
+						},
+						text: false
+					}).click(function(){
+						choice.remove();
+						return false;
+					});
+					
+					// Edit in place multiple choice field
+					// choice.find('span.mc-choice').editable();
+					choice.find('span.mc-choice').highlight().simpleEdit({
+						inputName: 'choice[]'
+					});
+					
+					// Append to list
+					mcChoices.append(choice);
 
 					return false;
 				});
+			});
+		});
+	}
+	
+	
+	/**
+	 * Runs the question editor on
+	 * an li element
+	 */
+	$.fn.questionEdit = function(options) {
+		
+		var defaults = {
+				ajax: '/assets/ajax/survey-question-entry.html',
+		}
+		
+		/**
+		 * Create settings object
+		 */
+		options = $.extend({}, defaults, options);
+		
+		return this.each(function() {
+			// Create new question
+			var li = $(this);
+			li.addClass('question'); //for css selector issue
+			
+			li.load('/assets/ajax/survey-question-entry.html',  function() {
 				
+				// Make the test title editable
+				$(this).find('span.question-description').highlight().simpleEdit({
+					inputName: 'question-description[]'
+				});
+
+				// Activate delete button
+				$(this).find('button.delete').button({
+					icons: {
+						primary: "ui-icon-trash"
+					}
+				}).click(function() {
+					li.remove();
+					return false;
+				});
+				
+				// Multiple choice selected
 				$(this).find('a.multipleChoice').click(function() {
-					li.load('/assets/ajax/survey-question-multiple-choice.html', function() {
-						// Multiple coice loaded
-						updateIndexes();
-						$(this).find('a.delete').click(deleteQuestion);
-						var noChoices = $(this).find('p.noMcChoices');
-						var mcChoices = $(this).find('ul.mcChoices');
-						var template = $(document.createElement('li')).load('/assets/ajax/survey-mc-choice.html');
-						template.addClass('mcChoice');
-						$(this).find('a.newMcChoice').click(function() {
-							var choice = template.clone();
-							choice.find('a.deleteChoice').click(function() {
-								choice.remove();
-								if (mcChoices.find('li.mcChoice').length == 0) {
-									noChoices.show();
-								}
-								return false;
-							});
-							choice.find('input.choiceInput').blur(function() {
-								choice.find('span.choiceText').first().html($(this).val()).removeClass('hidden');
-								$(this).addClass('hidden');
-								choice.find('a.editChoice').removeClass('hidden');
-							});
-							choice.find('a.editChoice').click(function() {
-								$(this).addClass('hidden');
-								var span = choice.find('span.choiceText').first();
-								span.addClass('hidden');
-								choice.find('input.choiceInput').removeClass('hidden').val(span.html()).focus();
-								return false;
-							});
-							mcChoices.append(choice);
-							noChoices.hide();
-							return false;
-						});
-					});
+					li.find('div.question-body').multipleChoice();
 					return false;
 				});
 				
 				$(this).find('a.unsupported').click(function() {
-					li.load('/assets/ajax/survey-question-unsupported.html', function() {
-						// Multiple coice loaded
-						updateIndexes();
-						$(this).find('a.delete').click(deleteQuestion);
-					});
+					li.find('div.question-body').unsupported();
 					return false;
 				});
 				
-				this.find('ol#questions').append(li);
-				updateIndexes();
-				
+				$('ol#questions').append(li);				
 			});
-
-			// Remove notice
-			this.find('p#noQuestions').hide();
-
-			/*
-			$.ajax({
-				type: "POST",
-				url: './2/addTask',
-				dataType: 'json',
-				contentType: "application/json",
-				async: false,
-				data: '{ "description" : "My Description", "title" : "My Title" }',
-				success: function (data, textStatus, jqXHR) {
-					// alert(data.title);
-				}
-			})
-			*/
 			
 			return false;
 		});
-
-		return true;
 	}
-
+	
 })(jQuery);

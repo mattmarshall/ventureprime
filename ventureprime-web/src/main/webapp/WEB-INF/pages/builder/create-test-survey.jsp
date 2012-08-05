@@ -20,9 +20,6 @@ $(document).ready(function(){
 		}
 	});
 
-	// Make test name editable
-	$('span#test-name').editable();
-
 	// Activate new task button
 	$('button#add-question').button({
 		icons: {
@@ -32,146 +29,7 @@ $(document).ready(function(){
 		// Create new question
 		var li = $(document.createElement('li'));
 		li.addClass('question'); //for css selector issue
-		
-		function deleteQuestion() {
-			li.remove();
-			updateIndexes();
-			var taskCount = $('ol#questions li.question').length;
-			if (taskCount == 0) {
-				$('p#noTasks').show();
-			}
-			return false;
-		}
-		
-		li.load('/assets/ajax/survey-question-entry.html',  function() {
-			
-			// Make the question description editable
-			$(this).find('span.question-description').editable();
-			
-			// Activate delete button
-			$(this).find('button.delete').button({
-				icons: {
-					primary: "ui-icon-trash"
-				}
-			}).click(function() {
-				li.remove();
-				return false;
-			});
-			
-			// Multiple choice selected
-			$(this).find('a.multipleChoice').click(function() {
-				li.find('div.question-body').load('/assets/ajax/survey-question-multiple-choice.html', function() {
-					
-					// Multiple choice loaded
-					$(this).find('a.delete').click(deleteQuestion);
-					
-					// Make choices list sortable
-					$(this).find('ul.mcChoices').sortable({
-						handle: 'div.mc-choice'
-					});
-					
-					// Set subtree listener
-					$(this).find('ul.mcChoices').bind('DOMSubtreeModified', function() {
-						var count = $(this).find('li').length;
-						if (count > 0) {
-							$('div.no-mc-choices').hide();
-						} else {
-							$('div.no-mc-choices').show();
-						}
-					});
-					
-					var noChoices = $(this).find('p.noMcChoices');
-					var mcChoices = $(this).find('ul.mcChoices');
-					var template = $(document.createElement('li')).load('/assets/ajax/survey-mc-choice.html');
-					
-					// Add CSS classes to li element
-					template.addClass('mcChoice').css('display','list-item').css('list-style-type','disc').css('list-style-position','inside');
-					
-					// Activate new multiple choice field
-					$(this).find('button.add-mc-choice').button({
-						icons: {
-							primary: "ui-icon-plusthick"
-						}
-					}).click(function(){
-						
-						// Prevent adding too many choices
-						var count = mcChoices.find('li').length;
-						if (count >= 5) {
-							alert('You cannot create more than 5 choices for this type of question. Please delete a choice.');
-							return false;
-						}
-						
-						var choice = template.clone();
-						choice.find('button.delete-choice').button({
-							icons: {
-								primary: 'ui-icon-trash'
-							},
-							text: false
-						}).click(function(){
-							choice.remove();
-							if (mcChoices.find('li.mcChoice').length == 0) {
-								noChoices.show();
-							}
-							return false;
-						});
-						
-						/*
-						choice.find('input.choiceInput').blur(function() {
-							choice.find('span.choiceText').first().html($(this).val()).removeClass('hidden');
-							$(this).addClass('hidden');
-							choice.find('a.editChoice').removeClass('hidden');
-						});
-						choice.find('a.editChoice').click(function() {
-							$(this).addClass('hidden');
-							var span = choice.find('span.choiceText').first();
-							span.addClass('hidden');
-							choice.find('input.choiceInput').removeClass('hidden').val(span.html()).focus();
-							return false;
-						});
-						*/
-						
-						// Edit in place multiple choice field
-						choice.find('span.mc-choice').editable();
-						
-						mcChoices.append(choice);
-						noChoices.hide();
-						return false;
-					});
-				});
-				return false;
-			});
-			
-			$(this).find('a.unsupported').click(function() {
-				li.load('/assets/ajax/survey-question-unsupported.html', function() {
-					// Multiple coice loaded
-					updateIndexes();
-					$(this).find('a.delete').click(deleteQuestion);
-				});
-				return false;
-			});
-			
-			$('ol#questions').append(li);
-			updateIndexes();
-			
-		});
-
-		// Remove notice
-		$('p#noQuestions').hide();
-
-		/*
-		$.ajax({
-			type: "POST",
-			url: './2/addTask',
-			dataType: 'json',
-			contentType: "application/json",
-			async: false,
-			data: '{ "description" : "My Description", "title" : "My Title" }',
-			success: function (data, textStatus, jqXHR) {
-				// alert(data.title);
-			}
-		})
-		*/
-		
+		li.questionEdit();
 		return false;
 	});
 	
@@ -193,21 +51,6 @@ $(document).ready(function(){
 		}
 	}).click(function() {
 		return $('form#test-task-form').submit();
-	});
-	
-	function updateIndexes() {
-		$('ol#questions li').each(function() {
-			var index = $('ol#questions li.question').index(this);
-			$(this).find('div.order').html((index + 1) + '.');
-			//$(this).find('input.taskTitle').attr('name', 'taskTitle').attr('id', 'taskTitle' + index)
-			//$(this).find('textarea.taskDescription').attr('name', 'taskDescription').attr('id', 'taskDescription' + index);
-		});
-	}
-
-	// Enable the add new task button
-	$('a#newQuestion').click(function() {
-		alert('Click');
-		return false;
 	});
 });
 </script>
