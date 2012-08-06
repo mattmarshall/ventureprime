@@ -69,7 +69,6 @@ $(document).ready(function(){
 	
 	// Activate next button
 	$('button#next-step').button({
-		disabled: true,
 		icons: {
 			secondary: "ui-icon-triangle-1-e"
 		}

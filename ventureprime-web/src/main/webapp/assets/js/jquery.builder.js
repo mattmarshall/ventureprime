@@ -46,6 +46,7 @@
 			var input = $(document.createElement('input'));
 
 			input.attr('type', options.inputType).attr('name', options.inputName);
+			input.val($this.text());
 			input.hide();
 			
 			// Click
@@ -64,7 +65,6 @@
 				$this.show();
 				return false;
 			});
-
 			parent.append(input);
 		});		
 	}
