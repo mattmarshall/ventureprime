@@ -167,12 +167,9 @@
 				var values = new Array();
 				choices.find('li').each(function(){
 					var $index = $(this).index();
-					values[$index] = {
-							name: 'choice',
-							value: $(this).find('input').val()
-					};
+					values[$index] = $(this).find('input').val();
 				});
-				var serialized = $.param(values);
+				var serialized = JSON.stringify(values);
 				console.log(serialized);
 				
 				// Set the value of options to the serialized data

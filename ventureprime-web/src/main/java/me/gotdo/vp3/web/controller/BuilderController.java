@@ -12,22 +12,22 @@ import me.gotdo.vp3.web.model.SurveyQuestion;
 import me.gotdo.vp3.web.model.Test;
 import me.gotdo.vp3.web.model.TestTask;
 import me.gotdo.vp3.web.model.VPUser;
+import me.gotdo.vp3.web.model.survey.MultipleChoiceQuestion;
 import me.gotdo.vp3.web.repository.TestLevelRepository;
-import me.gotdo.vp3.web.repository.TestRepository;
 import me.gotdo.vp3.web.repository.VPUserRepository;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/v/builder")
@@ -39,9 +39,6 @@ public class BuilderController {
 	
 	@Autowired
 	private VPUserRepository userRepo;
-	
-	@Autowired
-	private TestRepository testRepo;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String handleGet() {
@@ -191,7 +188,47 @@ public class BuilderController {
 			throw new Exception("Arrays are null or not the same length");
 		}
 		
-		throw new Exception("It worked!");
+		// Create the survey question
+		if (test.getSurveys() == null) {
+			throw new Exception("Surveys list is null");
+		} else if (test.getSurveys().size() != 1) {
+			throw new Exception("Surveys list is improper size");
+		}
+		
+		// Get the survey
+		Survey survey = test.getSurveys().get(0);
+		if (survey == null) {
+			throw new Exception("Survey is null!");
+		}
+		
+		// JSON object mapper
+		ObjectMapper mapper = new ObjectMapper();
+		
+		// Add questions to it
+		List<SurveyQuestion> questions = new ArrayList<SurveyQuestion>();
+		for (int i = 0; i < types.length; i++) {
+			String type = types[i];
+			if (!type.equals("multiple-choice")) {
+				throw new Exception("Only multiple choice supported");
+			}
+			
+			// Multiple choice question
+			MultipleChoiceQuestion question = new MultipleChoiceQuestion();
+			question.setPosition(i);
+			question.setTitle(descriptions[i]);
+			
+			// Read choices from JSON
+			List<String> choices = mapper.readValue(data[i], new TypeReference<List<String>>(){});
+			question.setChoices(choices);
+			
+			// Add question to list
+			questions.add(question);
+		}
+		
+		// Set questions in survey
+		survey.setQuestions(questions);
+		
+		return "redirect:../step/3";
 	}
 	
 	@RequestMapping(value = "/survey/question", method = RequestMethod.POST)
