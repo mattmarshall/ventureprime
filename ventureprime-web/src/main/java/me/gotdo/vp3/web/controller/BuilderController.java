@@ -166,6 +166,33 @@ public class BuilderController {
 		
 		return "builder/create-test-survey";
 	}
+
+	@RequestMapping(value = "/step/3", method = RequestMethod.POST)
+	public String submitSurvey(final HttpServletRequest request) throws Exception {
+		
+		Test test = (Test)request.getSession().getAttribute("test");
+		if (test == null) {
+			return "redirect:/v/builder";
+		}
+		
+		// Check for POST data
+		Map<String, String[]> map = request.getParameterMap();
+		if (!(map.containsKey("question-type[]") && map.containsKey("question-data[]") && map.containsKey("question-description[]"))) {
+			throw new Exception("POST data was not submitted");
+		}
+		
+		// Get submitted data
+		String[] types = map.get("question-type[]");
+		String[] descriptions = map.get("question-description[]");
+		String[] data = map.get("question-data[]");
+		
+		// Ugly hackery validation (will suffice for now
+		if ((types == null) || (descriptions == null) || (data == null) || (types.length != descriptions.length) || (types.length != data.length)) {
+			throw new Exception("Arrays are null or not the same length");
+		}
+		
+		throw new Exception("It worked!");
+	}
 	
 	@RequestMapping(value = "/survey/question", method = RequestMethod.POST)
 	public @ResponseBody SurveyQuestion addQuestion(@ModelAttribute("test") Test test,

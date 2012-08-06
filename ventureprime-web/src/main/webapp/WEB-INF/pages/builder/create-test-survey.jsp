@@ -50,37 +50,23 @@ $(document).ready(function(){
 			secondary: "ui-icon-triangle-1-e"
 		}
 	}).click(function() {
-		return $('form#test-task-form').submit();
+		return $('form#test-survey-form').submit();
 	});
 });
 </script>
 
 <h1 style="font-size:18px">Create Feedback Survey for <span id="test-name">${test.testName}</span></h1>
 
+<form id="test-survey-form" action="" method="post">
 <div id="test-survey-contain" style="margin-top:10px">
-<form name="testSurvey" action="" method="post">
 <c:choose>
   <c:when test="${(not empty test.surveys) && (not empty test.surveys[0].questions)}">
  		<ol id="questions">
     	<c:forEach var="question" varStatus="status" items="${test.surveys[0].questions}">
     	<li class="question">
-			<!-- Question -->
-			<div style="border-top: 1px solid gray; border-bottom: 1px solid gray; margin: 10px 0; padding: 10px;">
-				<div style="display:inline-block; vertical-align:top; padding: 0 10px">
-					<div>1.</div>
-					<div>
-						<p style="margin: 5px 0"><a href="#">Up</a>
-						<p style="margin: 5px 0"><a href="#">Down</a>
-					</div>
-				</div>
-				<div style="display:inline-block; vertical-align:top; border-left: 1px solid gray; padding-left: 10px; width: 850px">
-					<div style="float:right"><a href="#">Edit</a>&nbsp;&nbsp;<a href="#">Delete</a></div>
-					<h2>${question.title}</h2>
-					<textarea style="margin: 10px; clear: right"></textarea>
-				</div>
-			</div>
+    		<div>Question</div>
 		</li>
-  	</c:forEach>
+		</c:forEach>
   		</ol>
   </c:when>
   <c:otherwise>
@@ -93,8 +79,8 @@ $(document).ready(function(){
   	<ol id="questions"></ol>
   </c:otherwise>
 </c:choose>
-</form>
 </div>
+</form>
 
 <div style="margin-top:10px">
 <span style="float:right">

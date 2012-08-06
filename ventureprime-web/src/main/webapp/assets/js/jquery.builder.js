@@ -63,8 +63,16 @@
 				$this.text(input.val());
 				input.hide();
 				$this.show();
-				return false;
+				console.log(options);
+				if (options.onBlur != null) {
+					console.log('onBlur not null, calling');
+					return options.onBlur();
+				} else {
+					return true;
+				}
 			});
+			
+			// Append to parent element
 			parent.append(input);
 		});		
 	}
@@ -148,7 +156,32 @@
 		 */
 		options = $.extend({}, defaults, options);
 		
+		// Serialize data
+		function serializeQuestions(choices) {
+			console.log('About to serialize question');
+			if (options.data != null) {
+				// Element to serialize to
+				console.log('Serializing question');
+				
+				// Serialize the question
+				var values = new Array();
+				choices.find('li').each(function(){
+					var $index = $(this).index();
+					values[$index] = {
+							name: 'choice',
+							value: $(this).find('input').val()
+					};
+				});
+				var serialized = $.param(values);
+				console.log(serialized);
+				
+				// Set the value of options to the serialized data
+				options.data.val(serialized);
+			}
+		}
+		
 		return this.each(function() {
+			
 			$(this).load(options.template, function() {
 				
 				// Make choices list sortable
@@ -158,12 +191,17 @@
 				
 				// Set subtree listener
 				$(this).find('ol.mcChoices').bind('DOMSubtreeModified', function() {
+					
+					// Show/hide no questions div
 					var count = $(this).find('li').length;
 					if (count > 0) {
 						$('div.no-mc-choices').hide();
 					} else {
 						$('div.no-mc-choices').show();
 					}
+
+					// Serialize the questions
+					serializeQuestions($(this));
 				});
 
 				// Get elements
@@ -173,7 +211,7 @@
 				
 				// Add CSS classes to li element
 				template.addClass('mcChoice').css('display','list-item').css('list-style-type','lower-alpha').css('list-style-position','inside');
-				
+
 				// Activate new multiple choice field
 				$(this).find('button.add-mc-choice').button({
 					icons: {
@@ -203,7 +241,12 @@
 					// Edit in place multiple choice field
 					// choice.find('span.mc-choice').editable();
 					choice.find('span.mc-choice').highlight().simpleEdit({
-						inputName: 'choice[]'
+						inputName: 'choice[]',
+						onBlur: function() {
+							// Serialize the questions
+							serializeQuestions(mcChoices);
+							return true;
+						}
 					});
 					
 					// Append to list
@@ -255,11 +298,15 @@
 				
 				// Multiple choice selected
 				$(this).find('a.multipleChoice').click(function() {
-					li.find('div.question-body').multipleChoice();
+					li.find('input.question-type').val('multiple-choice');
+					li.find('div.question-body').multipleChoice({
+						data: li.find('input.question-data')
+					});
 					return false;
 				});
 				
 				$(this).find('a.unsupported').click(function() {
+					li.find('input.question-type').val('unsupported');
 					li.find('div.question-body').unsupported();
 					return false;
 				});
