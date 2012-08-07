@@ -1,4 +1,21 @@
 (function($) {
+
+	function setSelectionRange(input, selectionStart, selectionEnd) {
+		if (input.setSelectionRange) {
+			input.focus();
+			input.setSelectionRange(selectionStart, selectionEnd);
+		} else if (input.createTextRange) {
+			var range = input.createTextRange();
+			range.collapse(true);
+			range.moveEnd('character', selectionEnd);
+			range.moveStart('character', selectionStart);
+			range.select();
+		}
+	}
+	
+	function setCaretToPos (input, pos) {
+		setSelectionRange(input, pos, pos);
+	}
 	
 	/**
 	 * Creates a simple editor
@@ -46,18 +63,21 @@
 			var input = $(document.createElement('input'));
 
 			input.attr('type', options.inputType).attr('name', options.inputName);
+			input.css('border','none');
+			input.css('outline','none');
+			input.css('background','transparent');
 			input.val($this.text());
 			input.hide();
-			
+
 			// Click
 			$this.click(function() {
 				input.val($this.text());
 				input.show();
 				$this.hide();
-				input.focus();
+				input.focus();				
 				return false;
 			});
-			
+
 			// Blur
 			input.blur(function() {
 				$this.text(input.val());
@@ -71,7 +91,7 @@
 					return true;
 				}
 			});
-			
+
 			// Append to parent element
 			parent.append(input);
 		});		
@@ -130,12 +150,12 @@
 		var defaults = {
 				ajax: '/assets/ajax/survey-question-entry.html',
 		}
-		
+
 		/**
 		 * Create settings object
 		 */
 		options = $.extend({}, defaults, options);
-		
+
 		return this.each(function() {
 			$(this).load('/assets/ajax/survey-question-unsupported.html');
 		});
@@ -150,19 +170,19 @@
 				template: '/assets/ajax/survey-question-multiple-choice.html',
 				choiceTemplate: '/assets/ajax/survey-mc-choice.html'
 		}
-		
+
 		/**
 		 * Create settings object
 		 */
 		options = $.extend({}, defaults, options);
-		
+
 		// Serialize data
 		function serializeQuestions(choices) {
 			console.log('About to serialize question');
 			if (options.data != null) {
 				// Element to serialize to
 				console.log('Serializing question');
-				
+
 				// Serialize the question
 				var values = new Array();
 				choices.find('li').each(function(){
@@ -171,24 +191,24 @@
 				});
 				var serialized = JSON.stringify(values);
 				console.log(serialized);
-				
+
 				// Set the value of options to the serialized data
 				options.data.val(serialized);
 			}
 		}
-		
+
 		return this.each(function() {
-			
+
 			$(this).load(options.template, function() {
-				
+
 				// Make choices list sortable
 				$(this).find('ol.mcChoices').sortable({
 					handle: 'div.mc-choice'
 				});
-				
+
 				// Set subtree listener
 				$(this).find('ol.mcChoices').bind('DOMSubtreeModified', function() {
-					
+
 					// Show/hide no questions div
 					var count = $(this).find('li').length;
 					if (count > 0) {
@@ -205,7 +225,7 @@
 				var noChoices = $(this).find('p.noMcChoices');
 				var mcChoices = $(this).find('ol.mcChoices');
 				var template = $(document.createElement('li')).load(options.choiceTemplate);
-				
+
 				// Add CSS classes to li element
 				template.addClass('mcChoice').css('display','list-item').css('list-style-type','lower-alpha').css('list-style-position','inside');
 
@@ -215,14 +235,14 @@
 						primary: "ui-icon-plusthick"
 					}
 				}).click(function(){
-					
+
 					// Prevent adding too many choices
 					var count = mcChoices.find('li').length;
 					if (count >= 5) {
 						alert('You cannot create more than 5 choices for this type of question. Please delete a choice.');
 						return false;
 					}
-					
+
 					// Clone the choice template
 					var choice = template.clone();
 					choice.find('button.delete-choice').button({
@@ -234,7 +254,7 @@
 						choice.remove();
 						return false;
 					});
-					
+
 					// Edit in place multiple choice field
 					// choice.find('span.mc-choice').editable();
 					choice.find('span.mc-choice').highlight().simpleEdit({
@@ -245,7 +265,7 @@
 							return true;
 						}
 					});
-					
+
 					// Append to list
 					mcChoices.append(choice);
 
@@ -254,30 +274,30 @@
 			});
 		});
 	}
-	
-	
+
+
 	/**
 	 * Runs the question editor on
 	 * an li element
 	 */
 	$.fn.questionEdit = function(options) {
-		
+
 		var defaults = {
 				ajax: '/assets/ajax/survey-question-entry.html',
 		}
-		
+
 		/**
 		 * Create settings object
 		 */
 		options = $.extend({}, defaults, options);
-		
+
 		return this.each(function() {
 			// Create new question
 			var li = $(this);
 			li.addClass('question'); //for css selector issue
-			
+
 			li.load('/assets/ajax/survey-question-entry.html',  function() {
-				
+
 				// Make the test title editable
 				$(this).find('span.question-description').highlight().simpleEdit({
 					inputName: 'question-description[]'
@@ -292,7 +312,7 @@
 					li.remove();
 					return false;
 				});
-				
+
 				// Multiple choice selected
 				$(this).find('a.multipleChoice').click(function() {
 					li.find('input.question-type').val('multiple-choice');
@@ -301,18 +321,18 @@
 					});
 					return false;
 				});
-				
+
 				$(this).find('a.unsupported').click(function() {
 					li.find('input.question-type').val('unsupported');
 					li.find('div.question-body').unsupported();
 					return false;
 				});
-				
+
 				$('ol#questions').append(li);				
 			});
-			
+
 			return false;
 		});
 	}
-	
+
 })(jQuery);

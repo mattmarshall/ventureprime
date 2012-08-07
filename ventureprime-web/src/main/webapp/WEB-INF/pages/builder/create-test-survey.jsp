@@ -64,7 +64,49 @@ $(document).ready(function(){
  		<ol id="questions">
     	<c:forEach var="question" varStatus="status" items="${test.surveys[0].questions}">
     	<li class="question">
-    		<div>Question</div>
+			<div style="width: 975px;margin-top:5px">
+				<div class="ui-state-default question-header" style="height:30px">
+					<span style="float:right"><button class="delete" style="font-size:8pt;margin:2px;margin-right:5px">Delete</button></span>
+					<h2 class="question-description"><span class="ui-icon ui-icon-grip-dotted-vertical" style="display:inline-block;margin-top:6px;cursor:pointer"></span><span class="question-description">${question.title}</span></h2>
+					<input class="question-type" type="hidden" name="question-type[]" value="multiple-choice" />
+					<input class="question-data" type="hidden" name="question-data[]" value="" />
+				</div>
+				<div class="question-body" style="clear:right;border-color:gainsboro;border-style:solid;border-width:0 1px 1px 1px;background-color:white;min-height:65px" class="ui-corner-bottom">
+				<c:choose>
+					<c:when test="${question.class.name == 'me.gotdo.vp3.web.model.survey.MultipleChoiceQuestion'}">
+					
+					<div style="padding:10px">
+						<div>
+							<div class="no-mc-choices" class="ui-widget" style="display:none">
+								<div class="ui-state-highlight ui-corner-all"> 
+									<p style="padding:10px;font-size:12pt"><span class="ui-icon ui-icon-info" style="float: left; margin-right:10px;"></span>
+									You have no choices listed for this question, better create some.</p>
+								</div>
+							</div>
+							<!-- Choices List -->
+							<ol class="mcChoices">
+							<c:forEach var="choice" varStatus="choiceStatus" items="${question.choices}">							
+								<div class="mc-choice" style="margin: 5px 0">
+									<div style="float:right">
+										<button class="delete-choice" style="font-size:8pt">Delete</button>
+									</div>
+									<div style="width:90%;height:20px">
+										<span class="ui-icon ui-icon-grip-dotted-vertical" style="display:inline-block;vertical-align:middle"></span>
+										<span class="mc-choice" style="display:inline-block;vertical-align:middle">${choice}</span>
+									</div>
+									<div style="clear:right;height:0px">&nbsp;</div>
+								</div>							
+							</c:forEach>
+							</ol>
+						</div>
+						<div style="margin-top:5px">
+							<button class="add-mc-choice" style="font-size:8pt">Add Choice</button>
+						</div>
+					</div>					
+					</c:when>
+				</c:choose>
+				</div>
+			</div>
 		</li>
 		</c:forEach>
   		</ol>
